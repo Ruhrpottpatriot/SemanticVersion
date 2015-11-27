@@ -1,6 +1,7 @@
 ﻿namespace Semver
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Text.RegularExpressions;
@@ -10,8 +11,10 @@
     /// <summary>
     /// Reprensents a verrsion, compliant with the Semantic Version standard 2.0 (http://semver.org)
     /// </summary>
-    public class SemanticVersion
+    public class SemanticVersion : IEquatable<SemanticVersion>
     {
+        private static readonly SemanticVersionEqualityComparer EqualityComparer = new SemanticVersionEqualityComparer();
+
         private static readonly Regex VersionExpression = new Regex(@"^(?<major>\d+)(\.(?<minor>\d+))?(\.(?<patch>\d+))?(\-(?<pre>[0-9A-Za-z\-\.]+))?(\+(?<build>[0-9A-Za-z\-\.]+))?$", RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
 
         /// <summary>Initializese a new instance of the <see cref="SemanticVersion"/> class.</summary>
@@ -20,7 +23,7 @@
         /// <param name="patch">The patch version component.</param>
         /// <param name="prerelease">The pre-release version component.</param>
         /// <param name="build">The build version component.</param>
-        public SemanticVersion(int major, int minor, int patch, string prerelease = "", string build= "")
+        public SemanticVersion(int major, int minor, int patch, string prerelease = "", string build = "")
         {
             this.Major = major;
             this.Minor = minor;
@@ -30,19 +33,29 @@
         }
 
         /// <summary>Gets the major version component.</summary>
-        public int Major { get; private set; }
+        public int Major { get; }
 
         /// <summary>Gets the minor version component.</summary>
-        public int Minor { get; private set; }
+        public int Minor { get; }
 
         /// <summary>Gets the patch version component.</summary>
-        public int Patch { get; private set; }
+        public int Patch { get; }
 
         /// <summary>Gets the pre-release version component.</summary>
-        public string Prerelease { get; private set; }
+        public string Prerelease { get; }
 
         /// <summary>Gets the build version component.</summary>
-        public string Build { get; private set; }
+        public string Build { get; }
+        
+        public static bool operator ==(SemanticVersion left, SemanticVersion right)
+        {
+            return EqualityComparer.Equals(left, right);
+        }
+
+        public static bool operator !=(SemanticVersion left, SemanticVersion right)
+        {
+            return !EqualityComparer.Equals(left, right);
+        }
 
         /// <summary>Implicitly converts a string into a <see cref="SemanticVersion"/>.</summary>
         /// <param name="versionString">The string to convert.</param>
@@ -113,6 +126,72 @@
             {
                 version = null;
                 return false;
+            }
+        }
+        
+        /// <summary>Determines whether the specified <see cref="SemanticVersion" /> is equal to this instance.</summary>
+        /// <param name="other">The <see cref="SemanticVersion" /> to compare with this instance.</param>
+        /// <returns><c>true</c> if the specified <see cref="SemanticVersion" /> is equal to this instance; otherwise, <c>false</c>.</returns>
+        public bool Equals(SemanticVersion other)
+        {
+            if ((object)other == null)
+            {
+                return false;
+            }
+
+            if (this.Major != other.Major)
+            {
+                return false;
+            }
+
+            if (this.Minor != other.Minor)
+            {
+                return false;
+            }
+
+            if (this.Patch != other.Patch)
+            {
+                return false;
+            }
+
+            if (this.Prerelease != other.Prerelease)
+            {
+                return false;
+            }
+
+            if (this.Build != other.Build)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>Determines whether the specified <see cref="SemanticVersion" /> is equal to this instance.</summary>
+        /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
+        /// <returns><c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
+        public override bool Equals(object obj)
+        {
+            SemanticVersion other = obj as SemanticVersion;
+            return other != null && this.Equals(other);
+        }
+
+        /// <summary>
+        /// Fungiert als Hashfunktion für einen bestimmten Typ.
+        /// </summary>
+        /// <returns>
+        /// Ein Hashcode für das aktuelle Objekt.
+        /// </returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = this.Major;
+                hashCode = (hashCode * 397) ^ this.Minor;
+                hashCode = (hashCode * 397) ^ this.Patch;
+                hashCode = (hashCode * 397) ^ (this.Prerelease != null ? StringComparer.OrdinalIgnoreCase.GetHashCode(this.Prerelease) : 0);
+                hashCode = (hashCode * 397) ^ (this.Build != null ? StringComparer.OrdinalIgnoreCase.GetHashCode(this.Build) : 0);
+                return hashCode;
             }
         }
     }
