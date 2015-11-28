@@ -30,6 +30,14 @@ namespace SemanticVersionTest
         }
 
         [Fact]
+        public void EqualsNull()
+        {
+            SemanticVersion left = new SemanticVersion(1, 0, 0);
+
+            Assert.False(left.Equals((object)null));
+        }
+
+        [Fact]
 
         public void NotEqualsNull()
         {

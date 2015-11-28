@@ -28,7 +28,7 @@ namespace SemanticVersionTest
         [Fact]
         public void Greater()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0);
+            SemanticVersion left = new SemanticVersion(2, 0, 0);
             SemanticVersion right = new SemanticVersion(1, 0, 0);
 
             Assert.True(left > right);
