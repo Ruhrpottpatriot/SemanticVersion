@@ -32,7 +32,7 @@
             this.Prerelease = prerelease;
             this.Build = build;
         }
-        
+
         /// <summary>Gets the major version component.</summary>
         public int Major { get; }
 
@@ -91,6 +91,12 @@
 
         /// <summary>Explicitly converts a <see cref="Version"/> onject into a <see cref="SemanticVersion"/>.</summary>
         /// <param name="dotNetVersion">The version to convert.</param>
+        /// <remarks>
+        /// <para>This operator conversts a C# <see cref="Version"/> object into the corresponding <see cref="SemanticVersion"/> object.</para>
+        /// <para>Note, that with a C# version the <see cref="Version.Build"/> property is identical to the <see cref="Patch"/> propertry on a semantic version compliant object.
+        /// Whereas the <see cref="Version.Revision"/> property is equivalent to the <see cref="Build"/> property on a semantic version.
+        /// The <see cref="Prerelease"/> property is never set, since the C# version object does not use such a notation.</para>
+        /// </remarks>
         public static explicit operator SemanticVersion(Version dotNetVersion)
         {
             if (dotNetVersion == null)
@@ -100,8 +106,8 @@
 
             int major = dotNetVersion.Major;
             int minor = dotNetVersion.Minor;
-            int patch = dotNetVersion.Revision >= 0 ? dotNetVersion.Revision : 0;
-            string build = dotNetVersion.Build > 0 ? dotNetVersion.Build.ToString() : string.Empty;
+            int patch = dotNetVersion.Build >= 0 ? dotNetVersion.Build : 0;
+            string build = dotNetVersion.Revision >= 0 ? dotNetVersion.Revision.ToString() : string.Empty;
 
             return new SemanticVersion(major, minor, patch, string.Empty, build);
         }
@@ -241,9 +247,23 @@
         public int CompareTo(SemanticVersion other)
         {
             int compare = this.PrecendenceCompareTo(other);
-            return compare != 0 ? compare : this.CompareComponentString(this.Build, other.Build);
+            return compare != 0 ? compare : -this.Build.CompareComponent(other.Build);
         }
 
+        /// <summary>
+        /// Compares the current instance with another instance of the same type for precedence
+        /// as described in the 2.0 standard and returns an integer that indicates whether
+        /// the current instance precedes, follows, or occurs in the same position in the sort order as the 
+        /// other object.
+        /// </summary>
+        /// <param name="other">An object to compare with this instance.</param>
+        /// <returns>
+        /// A value that indicates the relative order of the objects being compared.
+        /// The return value has these meanings: Value Meaning Less than zero
+        /// This instance precedes <paramref name="other" /> in the sort order.
+        /// Zero This instance occurs in the same position in the sort order as <paramref name="other" />.
+        /// Greater than zero This instance follows <paramref name="other" /> in the sort order.
+        /// </returns>
         public int PrecendenceCompareTo(SemanticVersion other)
         {
             if ((object)other == null)
@@ -265,8 +285,8 @@
             {
                 return this.Patch.CompareTo(other.Patch);
             }
-            
-            return this.CompareComponentString(this.Prerelease, other.Prerelease, true);
+
+            return this.Prerelease.CompareComponent(other.Prerelease);
         }
 
         /// <summary>Determines whether the specified <see cref="SemanticVersion" /> is equal to this instance.</summary>
@@ -291,73 +311,6 @@
                 hashCode = (hashCode * 397) ^ (!string.IsNullOrWhiteSpace(this.Build) ? StringComparer.OrdinalIgnoreCase.GetHashCode(this.Build) : 0);
                 return hashCode;
             }
-        }
-
-        /// <summary>Compares two component parts for equality.</summary>
-        /// <param name="left"> The left part to compare.</param>
-        /// <param name="right">The right part to compare.</param>
-        /// <param name="leftIsLowerPart"><c>True</c> if the left part should be treated as the lower part in the comparison.</param>
-        private int CompareComponentString(string left, string right, bool leftIsLowerPart = false)
-        {
-            bool leftIsEmpty = string.IsNullOrWhiteSpace(left);
-            bool rightIsEmpty = string.IsNullOrWhiteSpace(right);
-
-            if (leftIsEmpty && rightIsEmpty)
-            {
-                return 0;
-            }
-
-            if (leftIsEmpty)
-            {
-                return leftIsLowerPart ? 1 : -1;
-            }
-
-            if (rightIsEmpty)
-            {
-                return leftIsLowerPart ? -1 : 1;
-            }
-
-            string[] partsLeft = left.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-            string[] partsRight = right.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-
-            for (int i = 0; i < Math.Min(partsLeft.Length, partsRight.Length); i++)
-            {
-                string leftCh = partsLeft[i];
-                string rightCh = partsRight[i];
-
-                int leftNumVal, rightNumVal;
-                bool leftIsNum = int.TryParse(leftCh, out leftNumVal);
-                bool rightIsNum = int.TryParse(rightCh, out rightNumVal);
-
-                if (leftIsNum && rightIsNum)
-                {
-                    if (leftNumVal.CompareTo(rightNumVal) == 0)
-                    {
-                        continue;
-                    }
-                    return leftNumVal.CompareTo(rightNumVal);
-                }
-                else
-                {
-                    if (leftIsNum)
-                    {
-                        return -1;
-                    }
-
-                    if (rightIsNum)
-                    {
-                        return 1;
-                    }
-
-                    int comp = string.Compare(leftCh, rightCh, StringComparison.OrdinalIgnoreCase);
-                    if (comp != 0)
-                    {
-                        return comp;
-                    }
-                }
-            }
-
-            return partsLeft.Length.CompareTo(partsRight.Length);
         }
     }
 }
