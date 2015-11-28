@@ -32,7 +32,7 @@
             this.Prerelease = prerelease;
             this.Build = build;
         }
-
+        
         /// <summary>Gets the major version component.</summary>
         public int Major { get; }
 
@@ -87,6 +87,23 @@
         public static implicit operator SemanticVersion(string versionString)
         {
             return SemanticVersion.Parse(versionString);
+        }
+
+        /// <summary>Explicitly converts a <see cref="Version"/> onject into a <see cref="SemanticVersion"/>.</summary>
+        /// <param name="dotNetVersion">The version to convert.</param>
+        public static explicit operator SemanticVersion(Version dotNetVersion)
+        {
+            if (dotNetVersion == null)
+            {
+                throw new ArgumentNullException(nameof(dotNetVersion), "The version to convert was null.");
+            }
+
+            int major = dotNetVersion.Major;
+            int minor = dotNetVersion.Minor;
+            int patch = dotNetVersion.Revision >= 0 ? dotNetVersion.Revision : 0;
+            string build = dotNetVersion.Build > 0 ? dotNetVersion.Build.ToString() : string.Empty;
+
+            return new SemanticVersion(major, minor, patch, string.Empty, build);
         }
 
         /// <summary>Parses the specified string to a semantic version.</summary>
