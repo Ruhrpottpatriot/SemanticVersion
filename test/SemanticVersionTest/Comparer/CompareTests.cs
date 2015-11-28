@@ -12,7 +12,7 @@ namespace SemanticVersionTest.Comparer
             Version left = new Version(1, 0, 0);
             Version right = new Version(1, 0, 0);
 
-            SemanticVersionComparer comparer = new SemanticVersionComparer();
+            VersionComparer comparer = new VersionComparer();
 
             Assert.Equal(0,comparer.Compare(left, right));
         }
@@ -22,7 +22,7 @@ namespace SemanticVersionTest.Comparer
         {
             Version right = new Version(1, 0, 0);
 
-            SemanticVersionComparer comparer = new SemanticVersionComparer();
+            VersionComparer comparer = new VersionComparer();
 
             Assert.Equal(-1, comparer.Compare(null, right));
         }
@@ -32,7 +32,7 @@ namespace SemanticVersionTest.Comparer
         {
             Version left = new Version(1, 0, 0);
 
-            SemanticVersionComparer comparer = new SemanticVersionComparer();
+            VersionComparer comparer = new VersionComparer();
 
             Assert.Equal(1, comparer.Compare(left, null));
         }
@@ -40,7 +40,7 @@ namespace SemanticVersionTest.Comparer
         [Fact]
         public void CompareBothNull()
         {
-            SemanticVersionComparer comparer = new SemanticVersionComparer();
+            VersionComparer comparer = new VersionComparer();
 
             Assert.Equal(0, comparer.Compare(null, null));
         }

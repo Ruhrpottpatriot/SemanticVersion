@@ -15,7 +15,7 @@
         {
             Version version = new Version(1, 0, 0);
             
-            SemanticVersionComparer comparer = new SemanticVersionComparer();
+            VersionComparer comparer = new VersionComparer();
 
             Assert.True(comparer.Equals(version, version));
         }
@@ -25,7 +25,7 @@
         {
             Version version = new Version(1, 0, 0);
 
-            SemanticVersionComparer comparer = new SemanticVersionComparer();
+            VersionComparer comparer = new VersionComparer();
 
             Assert.False(comparer.Equals(null, version));
         }
@@ -35,7 +35,7 @@
         {
             Version version = new Version(1, 0, 0);
 
-            SemanticVersionComparer comparer = new SemanticVersionComparer();
+            VersionComparer comparer = new VersionComparer();
 
             Assert.False(comparer.Equals(version, null));
         }

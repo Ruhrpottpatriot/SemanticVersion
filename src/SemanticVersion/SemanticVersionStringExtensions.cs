@@ -1,4 +1,4 @@
-namespace Semver
+namespace SemanticVersion
 {
     using System;
 

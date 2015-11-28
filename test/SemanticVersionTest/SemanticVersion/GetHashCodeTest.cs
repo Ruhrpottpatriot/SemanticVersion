@@ -1,7 +1,7 @@
 ﻿using System;
 namespace SemanticVersionTest
 {
-    using Semver;
+    using SemanticVersion;
 
     using Xunit;
 
@@ -10,8 +10,8 @@ namespace SemanticVersionTest
         [Fact]
         public void GetHashCodeEqual()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0, "foo", "bar");
-            SemanticVersion right = new SemanticVersion(1, 0, 0, "foo", "bar");
+            Version left = new Version(1, 0, 0, "foo", "bar");
+            Version right = new Version(1, 0, 0, "foo", "bar");
             
             Assert.Equal(left.GetHashCode(), right.GetHashCode());
         }
@@ -19,8 +19,8 @@ namespace SemanticVersionTest
         [Fact]
         public void GetHashCodeNotEqual()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0, "foo", "bar");
-            SemanticVersion right = new SemanticVersion(2, 0, 0, "foo", "bar");
+            Version left = new Version(1, 0, 0, "foo", "bar");
+            Version right = new Version(2, 0, 0, "foo", "bar");
 
             Assert.NotEqual(left.GetHashCode(), right.GetHashCode());
         }
@@ -28,8 +28,8 @@ namespace SemanticVersionTest
         [Fact]
         public void GetHashCodeNotEqualNoBuild()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0, "foo");
-            SemanticVersion right = new SemanticVersion(2, 0, 0, "foo");
+            Version left = new Version(1, 0, 0, "foo");
+            Version right = new Version(2, 0, 0, "foo");
 
             Assert.NotEqual(left.GetHashCode(), right.GetHashCode());
         }
@@ -37,8 +37,8 @@ namespace SemanticVersionTest
         [Fact]
         public void GetHashCodeNotEqualNoBuildNoPrerelease()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0);
-            SemanticVersion right = new SemanticVersion(2, 0, 0);
+            Version left = new Version(1, 0, 0);
+            Version right = new Version(2, 0, 0);
 
             Assert.NotEqual(left.GetHashCode(), right.GetHashCode());
         }

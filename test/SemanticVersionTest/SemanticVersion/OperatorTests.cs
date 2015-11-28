@@ -1,6 +1,6 @@
 namespace SemanticVersionTest
 {
-    using Semver;
+    using SemanticVersion;
 
     using Xunit;
 
@@ -9,8 +9,8 @@ namespace SemanticVersionTest
         [Fact]
         public void Equals()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0);
-            SemanticVersion right = new SemanticVersion(1, 0, 0);
+            Version left = new Version(1, 0, 0);
+            Version right = new Version(1, 0, 0);
 
             Assert.True(left == right);
         }
@@ -18,8 +18,8 @@ namespace SemanticVersionTest
         [Fact]
         public void NotEquals()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0);
-            SemanticVersion right = new SemanticVersion(2, 0, 0);
+            Version left = new Version(1, 0, 0);
+            Version right = new Version(2, 0, 0);
 
             Assert.True(left != right);
 
@@ -28,8 +28,8 @@ namespace SemanticVersionTest
         [Fact]
         public void Greater()
         {
-            SemanticVersion left = new SemanticVersion(2, 0, 0);
-            SemanticVersion right = new SemanticVersion(1, 0, 0);
+            Version left = new Version(2, 0, 0);
+            Version right = new Version(1, 0, 0);
 
             Assert.True(left > right);
         }
@@ -37,8 +37,8 @@ namespace SemanticVersionTest
         [Fact]
         public void Less()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0);
-            SemanticVersion right = new SemanticVersion(2, 0, 0);
+            Version left = new Version(1, 0, 0);
+            Version right = new Version(2, 0, 0);
 
             Assert.True(left < right);
         }
@@ -46,12 +46,12 @@ namespace SemanticVersionTest
         [Fact]
         public void GreaterEquals()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0);
-            SemanticVersion right = new SemanticVersion(1, 0, 0);
+            Version left = new Version(1, 0, 0);
+            Version right = new Version(1, 0, 0);
 
 
-            SemanticVersion left1 = new SemanticVersion(2, 0, 0);
-            SemanticVersion right1 = new SemanticVersion(1, 0, 0);
+            Version left1 = new Version(2, 0, 0);
+            Version right1 = new Version(1, 0, 0);
 
             Assert.True(left >= right);
             Assert.True(left1 >= right1);
@@ -60,12 +60,12 @@ namespace SemanticVersionTest
         [Fact]
         public void LessEquals()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0);
-            SemanticVersion right = new SemanticVersion(1, 0, 0);
+            Version left = new Version(1, 0, 0);
+            Version right = new Version(1, 0, 0);
 
 
-            SemanticVersion left1 = new SemanticVersion(1, 0, 0);
-            SemanticVersion right1 = new SemanticVersion(2, 0, 0);
+            Version left1 = new Version(1, 0, 0);
+            Version right1 = new Version(2, 0, 0);
 
             Assert.True(left <= right);
             Assert.True(left1 <= right1);

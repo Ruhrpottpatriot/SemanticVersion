@@ -12,7 +12,7 @@ namespace SemanticVersionTest.Comparer
             Version left = new Version(1, 0, 0, "foo", "bar");
             Version right = new Version(1, 0, 0, "foo", "bar");
 
-            SemanticVersionComparer comparer = new SemanticVersionComparer();
+            VersionComparer comparer = new VersionComparer();
 
             Assert.Equal(comparer.GetHashCode(left), comparer.GetHashCode(right));
         }
@@ -23,7 +23,7 @@ namespace SemanticVersionTest.Comparer
             Version left = new Version(1, 0, 0, "foo", "bar");
             Version right = new Version(1, 0, 0, "foo", "baz");
 
-            SemanticVersionComparer comparer = new SemanticVersionComparer();
+            VersionComparer comparer = new VersionComparer();
 
             Assert.NotEqual(comparer.GetHashCode(left), comparer.GetHashCode(right));
         }

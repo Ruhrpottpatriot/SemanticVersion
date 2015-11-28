@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SemanticVersionTest
 {
-    using Semver;
+    using SemanticVersion;
 
     using Xunit;
 
@@ -14,8 +14,8 @@ namespace SemanticVersionTest
         [Fact]
         public void Equals()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0);
-            SemanticVersion right = new SemanticVersion(1, 0, 0);
+            Version left = new Version(1, 0, 0);
+            Version right = new Version(1, 0, 0);
 
             Assert.True(left.Equals(right));
         }
@@ -23,8 +23,8 @@ namespace SemanticVersionTest
         [Fact]
         public void EqualsObject()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0);
-            object right = new SemanticVersion(1, 0, 0);
+            Version left = new Version(1, 0, 0);
+            object right = new Version(1, 0, 0);
 
             Assert.True(left.Equals(right));
         }
@@ -32,7 +32,7 @@ namespace SemanticVersionTest
         [Fact]
         public void EqualsNull()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0);
+            Version left = new Version(1, 0, 0);
 
             Assert.False(left.Equals((object)null));
         }
@@ -41,7 +41,7 @@ namespace SemanticVersionTest
 
         public void NotEqualsNull()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0);
+            Version left = new Version(1, 0, 0);
 
             Assert.False(left.Equals(null));
         }
@@ -50,8 +50,8 @@ namespace SemanticVersionTest
 
         public void NotEqualsMajor()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0);
-            SemanticVersion right = new SemanticVersion(2, 0, 0);
+            Version left = new Version(1, 0, 0);
+            Version right = new Version(2, 0, 0);
 
             Assert.False(left.Equals(right));
 
@@ -61,8 +61,8 @@ namespace SemanticVersionTest
 
         public void NotEqualsMinor()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0);
-            SemanticVersion right = new SemanticVersion(1, 1, 0);
+            Version left = new Version(1, 0, 0);
+            Version right = new Version(1, 1, 0);
 
             Assert.False(left.Equals(right));
         }
@@ -71,8 +71,8 @@ namespace SemanticVersionTest
 
         public void NotEqualsPatch()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0);
-            SemanticVersion right = new SemanticVersion(1, 0, 1);
+            Version left = new Version(1, 0, 0);
+            Version right = new Version(1, 0, 1);
 
             Assert.False(left.Equals(right));
         }
@@ -80,8 +80,8 @@ namespace SemanticVersionTest
         [Fact]
         public void NotEqualsPrerelease()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0, "foo");
-            SemanticVersion right = new SemanticVersion(1, 0, 0, "bar");
+            Version left = new Version(1, 0, 0, "foo");
+            Version right = new Version(1, 0, 0, "bar");
 
             Assert.False(left.Equals(right));
         }
@@ -90,8 +90,8 @@ namespace SemanticVersionTest
 
         public void NotEqualsBuild()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0, "foo", "bar");
-            SemanticVersion right = new SemanticVersion(1, 0, 0, "foo", "baz");
+            Version left = new Version(1, 0, 0, "foo", "bar");
+            Version right = new Version(1, 0, 0, "foo", "baz");
 
             Assert.False(left.Equals(right));
         }
