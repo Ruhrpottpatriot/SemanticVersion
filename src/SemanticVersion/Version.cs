@@ -112,6 +112,11 @@
             return new Version(major, minor, patch, string.Empty, build);
         }
 
+        public static Version BaseVersion()
+        {
+            return new Version(1, 0, 0);
+        }
+
         /// <summary>Parses the specified string to a semantic version.</summary>
         /// <param name="versionString">The version string.</param>
         /// <returns>A new <see cref="Version"/> object that has the specified values.</returns>
@@ -312,5 +317,17 @@
                 return hashCode;
             }
         }
+
+
+
+        public override string ToString()
+        {
+            string prerelease = string.IsNullOrWhiteSpace(this.Prerelease) ? string.Empty : $"-{this.Prerelease}";
+            string build = string.IsNullOrWhiteSpace(this.Build) ? string.Empty : $"+{this.Build}";
+
+            return $"{this.Major}.{this.Minor}.{this.Patch}{prerelease}{build}";
+        }
+
+
     }
 }
