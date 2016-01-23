@@ -133,7 +133,7 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "SemanticVersion/0.1.0": {
+      "SemanticVersion/0.3.0": {
         "type": "project",
         "framework": "DNX,Version=v4.5.1"
       },
@@ -425,7 +425,7 @@
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         }
       },
-      "SemanticVersion/0.1.0": {
+      "SemanticVersion/0.3.0": {
         "type": "project",
         "framework": "DNXCore,Version=v5.0",
         "dependencies": {
@@ -1316,7 +1316,7 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "SemanticVersion/0.1.0": {
+      "SemanticVersion/0.3.0": {
         "type": "project",
         "framework": "DNX,Version=v4.5.1"
       },
@@ -1561,7 +1561,7 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "SemanticVersion/0.1.0": {
+      "SemanticVersion/0.3.0": {
         "type": "project",
         "framework": "DNX,Version=v4.5.1"
       },
@@ -2071,7 +2071,7 @@
           "runtimes/win7/lib/DNXCore50/System.Threading.dll": {}
         }
       },
-      "SemanticVersion/0.1.0": {
+      "SemanticVersion/0.3.0": {
         "type": "project",
         "framework": "DNXCore,Version=v5.0",
         "dependencies": {
@@ -3367,7 +3367,7 @@
           "runtimes/win7/lib/DNXCore50/System.Threading.dll": {}
         }
       },
-      "SemanticVersion/0.1.0": {
+      "SemanticVersion/0.3.0": {
         "type": "project",
         "framework": "DNXCore,Version=v5.0",
         "dependencies": {
@@ -4269,7 +4269,7 @@
     }
   },
   "libraries": {
-    "SemanticVersion/0.1.0": {
+    "SemanticVersion/0.3.0": {
       "type": "project",
       "path": "../../src/SemanticVersion/project.json"
     },
@@ -6997,7 +6997,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "SemanticVersion >= 0.1.0-*",
+      "SemanticVersion >= 0.3.0-*",
       "xunit >= 2.1.0",
       "xunit.runner.dnx >= 2.1.0-rc1-build204"
     ],

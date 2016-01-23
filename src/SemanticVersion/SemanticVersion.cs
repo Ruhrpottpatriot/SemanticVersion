@@ -329,9 +329,35 @@
         {
             StringBuilder builder = new StringBuilder();
 
-            builder.Append(this.Major.HasValue ? $"{this.Major.Value}." : "*.");
-            builder.Append(this.Minor.HasValue ? $"{this.Minor.Value}." : "*.");
-            builder.Append(this.Patch.HasValue ? $"{this.Patch.Value}" : "*");
+            if (this.Major.HasValue)
+            {
+                builder.Append($"{this.Major.Value}.");
+            }
+            else
+            {
+                return "*";
+            }
+
+            if (this.Minor.HasValue)
+            {
+                builder.Append($"{this.Minor.Value}.");
+            }
+            else
+            {
+                builder.Append("*");
+                return builder.ToString();
+            }
+
+            if (this.Patch.HasValue)
+            {
+                builder.Append($"{this.Patch.Value}");
+            }
+            else
+            {
+                builder.Append("*");
+                return builder.ToString();
+            }
+            
             builder.Append(string.IsNullOrWhiteSpace(this.Prerelease) ? string.Empty : $"-{this.Prerelease}");
             builder.Append(string.IsNullOrWhiteSpace(this.Build) ? string.Empty : $"+{this.Build}");
 
