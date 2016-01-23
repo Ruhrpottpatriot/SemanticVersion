@@ -1,6 +1,6 @@
 namespace SemanticVersionTest.Comparer
 {
-    using SemanticVersion;
+    using SemVersion;
 
     using Xunit;
 
@@ -9,8 +9,8 @@ namespace SemanticVersionTest.Comparer
         [Fact]
         public void GetHashCodeSame()
         {
-            Version left = new Version(1, 0, 0, "foo", "bar");
-            Version right = new Version(1, 0, 0, "foo", "bar");
+            SemanticVersion left = new SemanticVersion(1, 0, 0, "foo", "bar");
+            SemanticVersion right = new SemanticVersion(1, 0, 0, "foo", "bar");
 
             VersionComparer comparer = new VersionComparer();
 
@@ -20,8 +20,8 @@ namespace SemanticVersionTest.Comparer
         [Fact]
         public void GetHashCodeDifferent()
         {
-            Version left = new Version(1, 0, 0, "foo", "bar");
-            Version right = new Version(1, 0, 0, "foo", "baz");
+            SemanticVersion left = new SemanticVersion(1, 0, 0, "foo", "bar");
+            SemanticVersion right = new SemanticVersion(1, 0, 0, "foo", "baz");
 
             VersionComparer comparer = new VersionComparer();
 

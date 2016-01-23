@@ -1,14 +1,14 @@
-﻿namespace SemanticVersion
+﻿namespace SemVersion
 {
     using System.Collections.Generic;
 
-    public sealed class VersionComparer : IEqualityComparer<Version>, IComparer<Version>
+    public sealed class VersionComparer : IEqualityComparer<SemanticVersion>, IComparer<SemanticVersion>
     {
-        /// <summary>Compares two instances of <see cref="Version"/> for equality.</summary>
+        /// <summary>Compares two instances of <see cref="SemanticVersion"/> for equality.</summary>
         /// <param name="left">The first version.</param>
         /// <param name="right">The second version.</param>
         /// <returns></returns>
-        public bool Equals(Version left, Version right)
+        public bool Equals(SemanticVersion left, SemanticVersion right)
         {
             if (ReferenceEquals(left, right))
             {
@@ -38,7 +38,7 @@
         /// <param name="right">The version to compare against.</param>
         /// <returns>If versionA &lt; versionB <c>&lt; 0</c>, if versionA &gt; versionB <c>&gt; 0</c>,
         /// if versionA is equal to versionB <c>0</c>.</returns>
-        public int Compare(Version left, Version right)
+        public int Compare(SemanticVersion left, SemanticVersion right)
         {
             if (ReferenceEquals(left, null))
             {
@@ -48,7 +48,7 @@
             return left.CompareTo(right);
         }
 
-        public int GetHashCode(Version obj)
+        public int GetHashCode(SemanticVersion obj)
         {
             return obj.GetHashCode();
         }

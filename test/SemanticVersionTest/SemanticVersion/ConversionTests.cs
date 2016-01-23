@@ -2,9 +2,9 @@
 {
     using System;
 
-    using Xunit;
+    using SemVersion;
 
-    using Version = SemanticVersion.Version;
+    using Xunit;
 
     public class ConversionTests
     {
@@ -13,7 +13,7 @@
         {
             System.Version dotNetVersion = new System.Version(1, 1, 1, 1);
 
-            Version version = (Version)dotNetVersion;
+            SemanticVersion version = (SemanticVersion)dotNetVersion;
 
             Assert.Equal(1, version.Major);
             Assert.Equal(1, version.Minor);
@@ -27,7 +27,7 @@
         {
             System.Version dotNetVersion = new System.Version(1, 1);
 
-            Version version = (Version)dotNetVersion;
+            SemanticVersion version = (SemanticVersion)dotNetVersion;
 
             Assert.Equal(1, version.Major);
             Assert.Equal(1, version.Minor);
@@ -43,7 +43,7 @@
 
             Assert.Throws<ArgumentNullException>(() =>
             {
-                Version version = (Version)dotNetVersion;
+                SemanticVersion version = (SemanticVersion)dotNetVersion;
             });
         }
     }

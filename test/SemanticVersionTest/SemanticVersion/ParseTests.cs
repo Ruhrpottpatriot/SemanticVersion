@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SemanticVersionTest
 {
-    using SemanticVersion;
+    using SemVersion;
 
     using Xunit;
 
@@ -16,7 +16,7 @@ namespace SemanticVersionTest
         [Fact]
         public void Parse()
         {
-            Version version = Version.Parse("1.1.1");
+            SemanticVersion version = SemanticVersion.Parse("1.1.1");
 
             Assert.Equal(1, version.Major);
             Assert.Equal(1, version.Minor);
@@ -26,7 +26,7 @@ namespace SemanticVersionTest
         [Fact]
         public void ParsePrerelease()
         {
-            Version version = Version.Parse("1.1.1-alpha-12");
+            SemanticVersion version = SemanticVersion.Parse("1.1.1-alpha-12");
 
             Assert.Equal(1, version.Major);
             Assert.Equal(1, version.Minor);
@@ -37,7 +37,7 @@ namespace SemanticVersionTest
         [Fact]
         public void ParseBuild()
         {
-            Version version = Version.Parse("1.1.1+nightly.23.43-foo");
+            SemanticVersion version = SemanticVersion.Parse("1.1.1+nightly.23.43-foo");
 
             Assert.Equal(1, version.Major);
             Assert.Equal(1, version.Minor);
@@ -48,7 +48,7 @@ namespace SemanticVersionTest
         [Fact]
         public void ParseComplete()
         {
-            Version version = Version.Parse("1.1.1-alpha-12+nightly.23.43-foo");
+            SemanticVersion version = SemanticVersion.Parse("1.1.1-alpha-12+nightly.23.43-foo");
 
             Assert.Equal(1, version.Major);
             Assert.Equal(1, version.Minor);
@@ -58,33 +58,39 @@ namespace SemanticVersionTest
         }
 
         [Fact]
+        public void ParseMajorWildcard()
+        {
+            var version = SemanticVersion.Parse("1.*");
+        }
+
+        [Fact]
         public void ParseFail()
         {
-            Assert.Throws<ArgumentException>(() => Version.Parse("foo-1.232+1"));
+            Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("foo-1.232+1"));
         }
 
         [Fact]
         public void ParseInvalidOperationNoMinorNoPatch()
         {
-            Assert.Throws<InvalidOperationException>(() => Version.Parse("1"));
+            Assert.Throws<InvalidOperationException>(() => SemanticVersion.Parse("1"));
         }
 
         [Fact]
         public void ParseInvalidOperationNoPatch()
         {
-            Assert.Throws<InvalidOperationException>(() => Version.Parse("1.3"));
+            Assert.Throws<InvalidOperationException>(() => SemanticVersion.Parse("1.3"));
         }
 
         [Fact]
         public void ParseInvalidOperationNoPatchWithPrerelease()
         {
-            Assert.Throws<InvalidOperationException>(() => Version.Parse("1.3-alpha"));
+            Assert.Throws<InvalidOperationException>(() => SemanticVersion.Parse("1.3-alpha"));
         }
 
         [Fact]
         public void ImplicitConversion()
         {
-            Version version = "1.1.1";
+            SemanticVersion version = "1.1.1";
 
             Assert.Equal(1, version.Major);
             Assert.Equal(1, version.Minor);
@@ -96,7 +102,7 @@ namespace SemanticVersionTest
         {
             Assert.Throws<InvalidOperationException>(() =>
             {
-                Version version = "1";
+                SemanticVersion version = "1";
             });
         }
     }

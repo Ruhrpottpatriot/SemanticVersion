@@ -1,4 +1,4 @@
-﻿namespace SemanticVersion
+﻿namespace SemVersion
 {
     internal static class Utilities
     {

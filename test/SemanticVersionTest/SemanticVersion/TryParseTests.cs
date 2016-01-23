@@ -1,6 +1,6 @@
 namespace SemanticVersionTest
 {
-    using SemanticVersion;
+    using SemVersion;
 
     using Xunit;
 
@@ -9,15 +9,15 @@ namespace SemanticVersionTest
         [Fact]
         public void Parse()
         {
-            Version version;
-            Assert.True(Version.TryParse("1.1.1", out version));
+            SemanticVersion version;
+            Assert.True(SemanticVersion.TryParse("1.1.1", out version));
         }
 
         [Fact]
         public void ParseFail()
         {
-            Version version;
-            Assert.False(Version.TryParse("1", out version));
+            SemanticVersion version;
+            Assert.False(SemanticVersion.TryParse("1", out version));
         }
     }
 }

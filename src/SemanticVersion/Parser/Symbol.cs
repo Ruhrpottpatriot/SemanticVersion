@@ -1,4 +1,4 @@
-﻿namespace SemanticVersion.Parser
+﻿namespace SemVersion.Parser
 {
     internal abstract class Symbol
     {

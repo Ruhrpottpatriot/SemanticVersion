@@ -1,26 +1,23 @@
-﻿namespace SemanticVersion.Parser
+﻿namespace SemVersion.Parser
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Linq.Expressions;
-
-    using SemVer = SemanticVersion.Version;
 
     public class RangeParser
     {
         private readonly Stack<Expression> expressionStack = new Stack<Expression>();
         private readonly Stack<Symbol> operatorStack = new Stack<Symbol>();
 
-        private readonly ParameterExpression variableExpression = Expression.Parameter(typeof(SemVer));
+        private readonly ParameterExpression variableExpression = Expression.Parameter(typeof(SemanticVersion));
 
-        public Func<SemVer, bool> Evaluate(string range)
+        public Func<SemanticVersion, bool> Evaluate(string range)
         {
             return this.Parse(range).Compile();
         }
 
-        public Expression<Func<SemVer, bool>> Parse(string range)
+        public Expression<Func<SemanticVersion, bool>> Parse(string range)
         {
             if (string.IsNullOrWhiteSpace(range))
             {
@@ -42,7 +39,7 @@
                     copyString = copyString.Substring(version.Length);
 
                     this.expressionStack.Push(this.variableExpression);
-                    this.expressionStack.Push(Expression.Constant(SemVer.Parse(version)));
+                    this.expressionStack.Push(Expression.Constant(SemanticVersion.Parse(version)));
 
                     continue;
                 }
@@ -83,10 +80,9 @@
 
             this.EvaluateWhile(() => this.operatorStack.Count > 0);
 
-            return Expression.Lambda<Func<SemVer, bool>>(this.expressionStack.Pop(), this.variableExpression);
+            return Expression.Lambda<Func<SemanticVersion, bool>>(this.expressionStack.Pop(), this.variableExpression);
         }
 
-        [SuppressMessage("ReSharper", "LoopVariableIsNeverChangedInsideLoop")]
         private void EvaluateWhile(Func<bool> condition)
         {
             if (condition == null)
@@ -94,6 +90,7 @@
                 throw new ArgumentNullException(nameof(condition), "The loop condition must not be null.");
             }
 
+            // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
             while (condition())
             {
                 Operation operation = (Operation)this.operatorStack.Pop();

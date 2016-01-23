@@ -2,18 +2,16 @@
 {
     using System;
 
-    using SemanticVersion;
+    using SemVersion;
 
     using Xunit;
-
-    using Version = SemanticVersion.Version;
 
     public class EqualsTests
     {
         [Fact]
         public void ReferenceEquals()
         {
-            Version version = new Version(1, 0, 0);
+            SemanticVersion version = new SemanticVersion(1, 0, 0);
             
             VersionComparer comparer = new VersionComparer();
 
@@ -23,7 +21,7 @@
         [Fact]
         public void ReferenceEqualsLeftNull()
         {
-            Version version = new Version(1, 0, 0);
+            SemanticVersion version = new SemanticVersion(1, 0, 0);
 
             VersionComparer comparer = new VersionComparer();
 
@@ -33,7 +31,7 @@
         [Fact]
         public void ReferenceEqualsRightNull()
         {
-            Version version = new Version(1, 0, 0);
+            SemanticVersion version = new SemanticVersion(1, 0, 0);
 
             VersionComparer comparer = new VersionComparer();
 

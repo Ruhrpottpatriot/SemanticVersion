@@ -1,6 +1,6 @@
 namespace SemanticVersionTest.Comparer
 {
-    using SemanticVersion;
+    using SemVersion;
 
     using Xunit;
 
@@ -9,8 +9,8 @@ namespace SemanticVersionTest.Comparer
         [Fact]
         public void Compare()
         {
-            Version left = new Version(1, 0, 0);
-            Version right = new Version(1, 0, 0);
+            SemanticVersion left = new SemanticVersion(1, 0, 0);
+            SemanticVersion right = new SemanticVersion(1, 0, 0);
 
             VersionComparer comparer = new VersionComparer();
 
@@ -20,7 +20,7 @@ namespace SemanticVersionTest.Comparer
         [Fact]
         public void CompareLeftNull()
         {
-            Version right = new Version(1, 0, 0);
+            SemanticVersion right = new SemanticVersion(1, 0, 0);
 
             VersionComparer comparer = new VersionComparer();
 
@@ -30,7 +30,7 @@ namespace SemanticVersionTest.Comparer
         [Fact]
         public void CompareRightNull()
         {
-            Version left = new Version(1, 0, 0);
+            SemanticVersion left = new SemanticVersion(1, 0, 0);
 
             VersionComparer comparer = new VersionComparer();
 

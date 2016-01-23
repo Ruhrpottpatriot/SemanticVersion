@@ -1,4 +1,4 @@
-﻿namespace SemanticVersion.Parser
+﻿namespace SemVersion.Parser
 {
     using System;
     using System.Collections.Generic;
