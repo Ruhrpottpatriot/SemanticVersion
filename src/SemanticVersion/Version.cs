@@ -1,11 +1,14 @@
 ﻿namespace SemanticVersion
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
+    using System.Runtime.CompilerServices;
+    using System.Text;
     using System.Text.RegularExpressions;
 #if DNX451
+    using System.Diagnostics.CodeAnalysis;
 #endif
+    using SemanticVersion.Parser;
 
     // This project can output the Class library as a NuGet Package.
     // To enable this option, right-click on the project and select the Properties menu item. In the Build tab select "Produce outputs on build".
@@ -16,7 +19,8 @@
     {
         private static readonly VersionComparer Comparer = new VersionComparer();
 
-        private static readonly Regex VersionExpression = new Regex(@"^(?<major>\d+)(\.(?<minor>\d+))?(\.(?<patch>\d+))?(\-(?<pre>[0-9A-Za-z\-\.]+))?(\+(?<build>[0-9A-Za-z\-\.]+))?$", RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
+        private static readonly Regex VersionExpression = new Regex(@"^(?<major>[0-9]+|[*])(\.(?<minor>[0-9]+|[*]))?(\.(?<patch>[0-9]+|[*]))?(\-(?<pre>[0-9A-Za-z\-\.]+|[*]))?(\+(?<build>[0-9A-Za-z\-\.]+|[*]))?$", RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
+
 
         /// <summary>Initializese a new instance of the <see cref="Version"/> class.</summary>
         /// <param name="major">The major version component.</param>
@@ -24,7 +28,7 @@
         /// <param name="patch">The patch version component.</param>
         /// <param name="prerelease">The pre-release version component.</param>
         /// <param name="build">The build version component.</param>
-        public Version(int major, int minor, int patch, string prerelease = "", string build = "")
+        public Version(int? major, int? minor, int? patch, string prerelease = "", string build = "")
         {
             this.Major = major;
             this.Minor = minor;
@@ -34,13 +38,13 @@
         }
 
         /// <summary>Gets the major version component.</summary>
-        public int Major { get; }
+        public int? Major { get; }
 
         /// <summary>Gets the minor version component.</summary>
-        public int Minor { get; }
+        public int? Minor { get; }
 
         /// <summary>Gets the patch version component.</summary>
-        public int Patch { get; }
+        public int? Patch { get; }
 
         /// <summary>Gets the pre-release version component.</summary>
         public string Prerelease { get; }
@@ -117,6 +121,11 @@
             return new Version(1, 0, 0);
         }
 
+        public static bool IsVersion(string inputString)
+        {
+            return VersionExpression.IsMatch(inputString);
+        }
+
         /// <summary>Parses the specified string to a semantic version.</summary>
         /// <param name="versionString">The version string.</param>
         /// <returns>A new <see cref="Version"/> object that has the specified values.</returns>
@@ -124,38 +133,52 @@
         /// <exception cref="InvalidOperationException">Raised when some part of the version string has an invalid format.</exception>
         public static Version Parse(string versionString)
         {
-            Match match = VersionExpression.Match(versionString);
+            Match versionMatch = VersionExpression.Match(versionString);
 
-            if (!match.Success)
+            if (!versionMatch.Success)
             {
-                throw new ArgumentException("The provided version string is invalid", versionString);
+                throw new ArgumentException("The provided version string is invalid", nameof(versionString));
             }
 
-            int major = int.Parse(match.Groups["major"].Value, CultureInfo.InvariantCulture); Group minorMatch = match.Groups["minor"];
+            Group majorMatch = versionMatch.Groups["major"];
+            int? major;
+            if (majorMatch.Value == "*")
+            {
+                major = null;
+            }
+            else
+            {
+                major = int.Parse(majorMatch.Value, CultureInfo.InvariantCulture);
+            }
 
-            int minor;
-            if (minorMatch.Success)
+            Group minorMatch = versionMatch.Groups["minor"];
+            int? minor;
+            if (minorMatch.Value == "*")
+            {
+                minor = null;
+            }
+            else
             {
                 minor = int.Parse(minorMatch.Value, CultureInfo.InvariantCulture);
             }
-            else
-            {
-                throw new InvalidOperationException("The version string was invalid. No minor version was given.");
-            }
 
-            Group patchMatch = match.Groups["patch"];
-            int patch;
-            if (patchMatch.Success)
+            Group patchMatch = versionMatch.Groups["patch"];
+            int? patch;
+            if (patchMatch.Value == "*")
+            {
+                patch = null;
+            }
+            else
             {
                 patch = int.Parse(patchMatch.Value, CultureInfo.InvariantCulture);
             }
-            else
-            {
-                throw new InvalidOperationException("The version string was invalid. No patch was given.");
-            }
 
-            string prerelease = match.Groups["pre"].Value;
-            string build = match.Groups["build"].Value;
+            Group prereleaseMatch = versionMatch.Groups["pre"];
+            string prerelease = prereleaseMatch.Value != "*" ? prereleaseMatch.Value : string.Empty;
+
+            Group buildMatch = versionMatch.Groups["build"];
+            string build = buildMatch.Value != "*" ? buildMatch.Value : string.Empty;
+
 
             return new Version(major, minor, patch, prerelease, build);
         }
@@ -276,19 +299,22 @@
                 return 1;
             }
 
-            if (this.Major != other.Major)
+            int majorComp = this.Major.CompareToBoxed(other.Major);
+            if (majorComp != 0)
             {
-                return this.Major.CompareTo(other.Major);
+                return majorComp;
             }
 
-            if (this.Minor != other.Minor)
+            int minorComp = this.Minor.CompareToBoxed(other.Minor);
+            if (minorComp != 0)
             {
-                return this.Minor.CompareTo(other.Minor);
+                return minorComp;
             }
 
-            if (this.Patch != other.Patch)
+            int patchComp = this.Patch.CompareToBoxed(other.Patch);
+            if (patchComp != 0)
             {
-                return this.Patch.CompareTo(other.Patch);
+                return patchComp;
             }
 
             return this.Prerelease.CompareComponent(other.Prerelease);
@@ -309,25 +335,26 @@
         {
             unchecked
             {
-                int hashCode = this.Major;
-                hashCode = (hashCode * 397) ^ this.Minor;
-                hashCode = (hashCode * 397) ^ this.Patch;
+                int hashCode = this.Major ?? 0;
+                hashCode = (hashCode * 397) ^ this.Minor ?? 0;
+                hashCode = (hashCode * 397) ^ this.Patch ?? 0;
                 hashCode = (hashCode * 397) ^ (!string.IsNullOrWhiteSpace(this.Prerelease) ? StringComparer.OrdinalIgnoreCase.GetHashCode(this.Prerelease) : 0);
                 hashCode = (hashCode * 397) ^ (!string.IsNullOrWhiteSpace(this.Build) ? StringComparer.OrdinalIgnoreCase.GetHashCode(this.Build) : 0);
                 return hashCode;
             }
         }
 
-
-
         public override string ToString()
         {
-            string prerelease = string.IsNullOrWhiteSpace(this.Prerelease) ? string.Empty : $"-{this.Prerelease}";
-            string build = string.IsNullOrWhiteSpace(this.Build) ? string.Empty : $"+{this.Build}";
+            StringBuilder builder = new StringBuilder();
 
-            return $"{this.Major}.{this.Minor}.{this.Patch}{prerelease}{build}";
+            builder.Append(this.Major.HasValue ? $"{this.Major.Value}." : "*.");
+            builder.Append(this.Minor.HasValue ? $"{this.Minor.Value}." : "*.");
+            builder.Append(this.Patch.HasValue ? $"{this.Patch.Value}" : "*");
+            builder.Append(string.IsNullOrWhiteSpace(this.Prerelease) ? string.Empty : $"-{this.Prerelease}");
+            builder.Append(string.IsNullOrWhiteSpace(this.Build) ? string.Empty : $"+{this.Build}");
+
+            return builder.ToString();
         }
-
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿{
-    "version": "1.0.0-*",
+    "version": "0.1.0-*",
+    "title": "Semantic Version .NET",
     "description": "A portable semantic version class library compliant with the 2.0 SemanticVersion standard (http://semver.org) ",
     "authors": [ "Robert Logiewa" ],
     "tags": [
