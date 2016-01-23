@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Linq.Expressions;
 
@@ -74,8 +75,7 @@
                         continue;
                     case ' ':
                         copyString = copyString.Substring(1);
-
-                        break;
+                        continue;
                     default:
                         throw new ArgumentException($"Encountered invalid character {copyString[0]}");
                 }
@@ -86,6 +86,7 @@
             return Expression.Lambda<Func<SemVer, bool>>(this.expressionStack.Pop(), this.variableExpression);
         }
 
+        [SuppressMessage("ReSharper", "LoopVariableIsNeverChangedInsideLoop")]
         private void EvaluateWhile(Func<bool> condition)
         {
             if (condition == null)
