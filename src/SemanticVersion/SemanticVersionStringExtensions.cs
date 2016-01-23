@@ -13,17 +13,17 @@ namespace SemVersion
             bool componentEmpty = string.IsNullOrWhiteSpace(component);
             bool otherEmtpy = string.IsNullOrWhiteSpace(other);
 
-            if (componentEmpty && otherEmtpy)
+            if ((componentEmpty && otherEmtpy) || (component == "*" && other == "*"))
             {
                 return 0;
             }
 
-            if (componentEmpty)
+            if (componentEmpty || component == "*")
             {
                 return 1;
             }
 
-            if (otherEmtpy)
+            if (otherEmtpy || other == "*")
             {
                 return -1;
             }
