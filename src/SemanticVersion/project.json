@@ -1,5 +1,5 @@
 ﻿{
-    "version": "0.3.0-*",
+    "version": "0.4.0",
     "title": "Semantic Version .NET",
     "description": "A portable semantic version class library compliant with the 2.0 SemanticVersion standard (http://semver.org) ",
     "authors": [ "Robert Logiewa" ],
@@ -17,8 +17,6 @@
                 "Microsoft.CSharp": "4.0.1-beta-23516",
                 "System.Collections": "4.0.11-beta-23516",
                 "System.Linq": "4.0.1-beta-23516",
-                "System.Runtime": "4.0.21-beta-23516",
-                "System.Threading": "4.0.11-beta-23516",
                 "System.Text.RegularExpressions": "4.0.11-beta-23516"
             }
         }

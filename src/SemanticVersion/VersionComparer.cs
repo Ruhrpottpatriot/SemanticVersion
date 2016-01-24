@@ -4,10 +4,7 @@
 
     public sealed class VersionComparer : IEqualityComparer<SemanticVersion>, IComparer<SemanticVersion>
     {
-        /// <summary>Compares two instances of <see cref="SemanticVersion"/> for equality.</summary>
-        /// <param name="left">The first version.</param>
-        /// <param name="right">The second version.</param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public bool Equals(SemanticVersion left, SemanticVersion right)
         {
             if (ReferenceEquals(left, right))
@@ -30,14 +27,10 @@
                 return false;
             }
 
-           return left.Equals(right);
+            return left.Equals(right);
         }
 
-        /// <summary>Compares the specified versions.</summary>
-        /// <param name="left">The version to compare to.</param>
-        /// <param name="right">The version to compare against.</param>
-        /// <returns>If versionA &lt; versionB <c>&lt; 0</c>, if versionA &gt; versionB <c>&gt; 0</c>,
-        /// if versionA is equal to versionB <c>0</c>.</returns>
+        /// <inheritdoc/>
         public int Compare(SemanticVersion left, SemanticVersion right)
         {
             if (ReferenceEquals(left, null))
@@ -48,6 +41,7 @@
             return left.CompareTo(right);
         }
 
+        /// <inheritdoc/>
         public int GetHashCode(SemanticVersion obj)
         {
             return obj.GetHashCode();

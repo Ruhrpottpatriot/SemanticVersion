@@ -1,6 +1,7 @@
 ﻿namespace SemVersion
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Text;
     using System.Text.RegularExpressions;
@@ -13,7 +14,7 @@
     /// </summary>
     public class SemanticVersion : IEquatable<SemanticVersion>, IComparable<SemanticVersion>
     {
-        private static readonly VersionComparer Comparer = new VersionComparer();
+        private static readonly IComparer<SemanticVersion> Comparer = new VersionComparer();
 
         private static readonly Regex VersionExpression = new Regex(@"^(?<major>[0-9]+|[*])(\.(?<minor>[0-9]+|[*]))?(\.(?<patch>[0-9]+|[*]))?(\-(?<pre>[0-9A-Za-z\-\.]+|[*]))?(\+(?<build>[0-9A-Za-z\-\.]+|[*]))?$", RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
 
@@ -49,12 +50,12 @@
 
         public static bool operator ==(SemanticVersion left, SemanticVersion right)
         {
-            return Comparer.Equals(left, right);
+           return Comparer.Compare(left, right) == 0;
         }
 
         public static bool operator !=(SemanticVersion left, SemanticVersion right)
         {
-            return !Comparer.Equals(left, right);
+            return Comparer.Compare(left, right) != 0;
         }
 
         public static bool operator <(SemanticVersion left, SemanticVersion right)
@@ -83,7 +84,7 @@
 
         public static implicit operator SemanticVersion(string versionString)
         {
-            return Parse(versionString);
+            return SemanticVersion.Parse(versionString);
         }
 
         /// <summary>Explicitly converts a <see cref="System.Version"/> onject into a <see cref="SemanticVersion"/>.</summary>
@@ -98,7 +99,7 @@
         {
             if (dotNetVersion == null)
             {
-                throw new ArgumentNullException(nameof(dotNetVersion), "The version to convert was null.");
+                throw new ArgumentNullException(nameof(dotNetVersion), "The version to convert is null.");
             }
 
             int major = dotNetVersion.Major;
@@ -109,15 +110,14 @@
             return new SemanticVersion(major, minor, patch, string.Empty, build);
         }
 
-        public static SemanticVersion BaseVersion()
-        {
-            return new SemanticVersion(1, 0, 0);
-        }
+        /// <summary>Describes the first public api version.</summary>
+        /// <returns>A <see cref="SemanticVersion"/> with version 1.0.0 as version number.</returns>
+        public static SemanticVersion BaseVersion() => new SemanticVersion(1, 0, 0);
 
-        public static bool IsVersion(string inputString)
-        {
-            return VersionExpression.IsMatch(inputString);
-        }
+        /// <summary>Checks if a given string can be considered a valid <see cref="SemanticVersion"/>.</summary>
+        /// <param name="inputString">The string to check for validity.</param>
+        /// <returns>True, if the passed string is a valid <see cref="SemanticVersion"/>, otherwise false.</returns>
+        public static bool IsVersion(string inputString) => VersionExpression.IsMatch(inputString);
 
         /// <summary>Parses the specified string to a semantic version.</summary>
         /// <param name="versionString">The version string.</param>
@@ -133,6 +133,8 @@
                 throw new ArgumentException("The provided version string is invalid", nameof(versionString));
             }
 
+            // Parse the major component, if the match equals to "*",
+            // we return a version that matches everty version.
             Group majorMatch = versionMatch.Groups["major"];
             if (majorMatch.Value == "*")
             {
@@ -140,6 +142,9 @@
             }
             int? major = int.Parse(majorMatch.Value, CultureInfo.InvariantCulture);
 
+            // Parse the minor component, if the match equals to "*",
+            // we return a version that matches every minor version
+            // for a specified major version.
             Group minorMatch = versionMatch.Groups["minor"];
             if (minorMatch.Value == "*")
             {
@@ -147,6 +152,9 @@
             }
             int? minor = int.Parse(minorMatch.Value, CultureInfo.InvariantCulture);
 
+            // Parse the patch component, if the match equals to "*",
+            // we return a version that matches every patch version
+            // for a specified major and minor version
             Group patchMatch = versionMatch.Groups["patch"];
             if (patchMatch.Value == "*")
             {
@@ -154,12 +162,12 @@
             }
             int? patch = int.Parse(patchMatch.Value, CultureInfo.InvariantCulture);
 
+            // Parse the patch and build components
             Group prereleaseMatch = versionMatch.Groups["pre"];
             string prerelease = prereleaseMatch.Value != "*" ? prereleaseMatch.Value : string.Empty;
 
             Group buildMatch = versionMatch.Groups["build"];
             string build = buildMatch.Value != "*" ? buildMatch.Value : string.Empty;
-
 
             return new SemanticVersion(major, minor, patch, prerelease, build);
         }
@@ -187,6 +195,8 @@
         /// <summary>Determines whether the specified <see cref="SemanticVersion" /> is equal to this instance.</summary>
         /// <param name="other">The <see cref="SemanticVersion" /> to compare with this instance.</param>
         /// <returns><c>true</c> if the specified <see cref="SemanticVersion" /> is equal to this instance; otherwise, <c>false</c>.</returns>
+        /// <remarks>The equals method will check every component of a specified <see cref="SemanticVersion"/>.
+        /// For a comparison described in the 2.0 standard use the <see cref="CompareTo(SemVersion.SemanticVersion)"/> method.</remarks>
         public bool Equals(SemanticVersion other)
         {
             if ((object)other == null)
@@ -254,26 +264,6 @@
         /// Greater than zero This instance follows <paramref name="other" /> in the sort order.
         /// </returns>
         public int CompareTo(SemanticVersion other)
-        {
-            int compare = this.PrecendenceCompareTo(other);
-            return compare != 0 ? compare : -this.Build.CompareComponent(other.Build);
-        }
-
-        /// <summary>
-        /// Compares the current instance with another instance of the same type for precedence
-        /// as described in the 2.0 standard and returns an integer that indicates whether
-        /// the current instance precedes, follows, or occurs in the same position in the sort order as the 
-        /// other object.
-        /// </summary>
-        /// <param name="other">An object to compare with this instance.</param>
-        /// <returns>
-        /// A value that indicates the relative order of the objects being compared.
-        /// The return value has these meanings: Value Meaning Less than zero
-        /// This instance precedes <paramref name="other" /> in the sort order.
-        /// Zero This instance occurs in the same position in the sort order as <paramref name="other" />.
-        /// Greater than zero This instance follows <paramref name="other" /> in the sort order.
-        /// </returns>
-        public int PrecendenceCompareTo(SemanticVersion other)
         {
             if ((object)other == null)
             {
@@ -357,7 +347,7 @@
                 builder.Append("*");
                 return builder.ToString();
             }
-            
+
             builder.Append(string.IsNullOrWhiteSpace(this.Prerelease) ? string.Empty : $"-{this.Prerelease}");
             builder.Append(string.IsNullOrWhiteSpace(this.Build) ? string.Empty : $"+{this.Build}");
 
