@@ -14,7 +14,7 @@
     /// </summary>
     public class SemanticVersion : IEquatable<SemanticVersion>, IComparable<SemanticVersion>
     {
-        private static readonly IComparer<SemanticVersion> Comparer = new VersionComparer();
+        private static IComparer<SemanticVersion> Comparer = new VersionComparer();
 
         private static readonly Regex VersionExpression = new Regex(@"^(?<major>[0-9]+|[*])(\.(?<minor>[0-9]+|[*]))?(\.(?<patch>[0-9]+|[*]))?(\-(?<pre>[0-9A-Za-z\-\.]+|[*]))?(\+(?<build>[0-9A-Za-z\-\.]+|[*]))?$", RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
 
@@ -110,6 +110,11 @@
             return new SemanticVersion(major, minor, patch, string.Empty, build);
         }
 
+        public static void ChangeComparer(IComparer<SemanticVersion> versionComparer)
+        {
+            Comparer = versionComparer;
+        }
+
         /// <summary>Describes the first public api version.</summary>
         /// <returns>A <see cref="SemanticVersion"/> with version 1.0.0 as version number.</returns>
         public static SemanticVersion BaseVersion() => new SemanticVersion(1, 0, 0);
@@ -174,8 +179,8 @@
 
         /// <summary>Tries to parse the specified string into a semantic version.</summary>
         /// <param name="versionString">The version string.</param>
-        /// <param name="version">When the method returns, contains a SemVersion instance equivalent 
-        /// to the version string passed in, if the version string was valid, or <c>null</c> if the 
+        /// <param name="version">When the method returns, contains a SemVersion instance equivalent
+        /// to the version string passed in, if the version string was valid, or <c>null</c> if the
         /// version string was not valid.</param>
         /// <returns><c>False</c> when a invalid version string is passed, otherwise <c>true</c>.</returns>
         public static bool TryParse(string versionString, out SemanticVersion version)
@@ -192,116 +197,31 @@
             }
         }
 
-        /// <summary>Determines whether the specified <see cref="SemanticVersion" /> is equal to this instance.</summary>
-        /// <param name="other">The <see cref="SemanticVersion" /> to compare with this instance.</param>
-        /// <returns><c>true</c> if the specified <see cref="SemanticVersion" /> is equal to this instance; otherwise, <c>false</c>.</returns>
-        /// <remarks>The equals method will check every component of a specified <see cref="SemanticVersion"/>.
-        /// For a comparison described in the 2.0 standard use the <see cref="CompareTo(SemVersion.SemanticVersion)"/> method.</remarks>
+        /// <inheritdoc />
         public bool Equals(SemanticVersion other)
         {
-            if ((object)other == null)
-            {
-                return false;
-            }
-
-            if (this.Major != other.Major)
-            {
-                return false;
-            }
-
-            if (this.Minor != other.Minor)
-            {
-                return false;
-            }
-
-            if (this.Patch != other.Patch)
-            {
-                return false;
-            }
-
-            if (this.Prerelease != other.Prerelease)
-            {
-                return false;
-            }
-
-            if (this.Build != other.Build)
-            {
-                return false;
-            }
-
-            return true;
+            return Comparer.Compare(this, other) == 0;
         }
 
-        /// <summary>
-        /// Compares the current instance with another object of the same type and returns an integer that indicates
-        /// whether the current instance precedes, follows, or occurs in the same position in the sort order as the other object.
-        /// </summary>
-        /// <param name="obj">An object to compare with this instance.</param>
-        /// <returns>
-        /// A value that indicates the relative order of the objects being compared.
-        /// The return value has these meanings: Value Meaning Less than zero
-        /// This instance precedes <paramref name="obj" /> in the sort order.
-        /// Zero This instance occurs in the same position in the sort order as <paramref name="obj" />.
-        /// Greater than zero This instance follows <paramref name="obj" /> in the sort order.
-        /// </returns>
+        /// <inheritdoc />
         public int CompareTo(object obj)
         {
-            SemanticVersion version = obj as SemanticVersion;
-            return version == null ? 1 : this.CompareTo(version);
+            return Comparer.Compare(this, obj as SemanticVersion);
         }
 
-        /// <summary>
-        /// Compares the current instance with another object of the same type and returns an integer that indicates 
-        /// whether the current instance precedes, follows, or occurs in the same position in the sort order as the 
-        /// other object.
-        /// </summary>
-        /// <param name="other">An object to compare with this instance.</param>
-        /// <returns>
-        /// A value that indicates the relative order of the objects being compared.
-        /// The return value has these meanings: Value Meaning Less than zero
-        /// This instance precedes <paramref name="other" /> in the sort order.
-        /// Zero This instance occurs in the same position in the sort order as <paramref name="other" />.
-        /// Greater than zero This instance follows <paramref name="other" /> in the sort order.
-        /// </returns>
+        /// <inheritdoc />
         public int CompareTo(SemanticVersion other)
         {
-            if ((object)other == null)
-            {
-                return 1;
-            }
-
-            int majorComp = this.Major.CompareToBoxed(other.Major);
-            if (majorComp != 0)
-            {
-                return majorComp;
-            }
-
-            int minorComp = this.Minor.CompareToBoxed(other.Minor);
-            if (minorComp != 0)
-            {
-                return minorComp;
-            }
-
-            int patchComp = this.Patch.CompareToBoxed(other.Patch);
-            if (patchComp != 0)
-            {
-                return patchComp;
-            }
-
-            return this.Prerelease.CompareComponent(other.Prerelease);
+            return Comparer.Compare(this, other);
         }
 
-        /// <summary>Determines whether the specified <see cref="SemanticVersion" /> is equal to this instance.</summary>
-        /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
-        /// <returns><c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
+        /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            SemanticVersion other = obj as SemanticVersion;
-            return other != null && this.Equals(other);
+            return this.Equals(obj as SemanticVersion) == 0;
         }
 
-        /// <summary>Returns a hash code for this instance.</summary>
-        /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             unchecked
@@ -315,6 +235,7 @@
             }
         }
 
+        /// <inheritdoc />
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();

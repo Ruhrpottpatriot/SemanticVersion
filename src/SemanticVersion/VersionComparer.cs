@@ -7,27 +7,7 @@
         /// <inheritdoc/>
         public bool Equals(SemanticVersion left, SemanticVersion right)
         {
-            if (ReferenceEquals(left, right))
-            {
-                return true;
-            }
-
-            if (ReferenceEquals(left, null))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(right, null))
-            {
-                return false;
-            }
-
-            if (left.GetType() != right.GetType())
-            {
-                return false;
-            }
-
-            return left.Equals(right);
+            return this.Compare(left, right) == 0;
         }
 
         /// <inheritdoc/>
@@ -38,7 +18,30 @@
                 return ReferenceEquals(right, null) ? 0 : -1;
             }
 
-            return left.CompareTo(right);
+            if (ReferenceEquals(right, null))
+            {
+                return 1;
+            }
+
+            int majorComp = this.Major.CompareToBoxed(other.Major);
+            if (majorComp != 0)
+            {
+                return majorComp;
+            }
+
+            int minorComp = this.Minor.CompareToBoxed(other.Minor);
+            if (minorComp != 0)
+            {
+                return minorComp;
+            }
+
+            int patchComp = this.Patch.CompareToBoxed(other.Patch);
+            if (patchComp != 0)
+            {
+                return patchComp;
+            }
+
+            return this.Prerelease.CompareComponent(other.Prerelease);
         }
 
         /// <inheritdoc/>
