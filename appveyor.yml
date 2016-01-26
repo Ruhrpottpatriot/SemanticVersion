@@ -17,7 +17,7 @@ deploy:
  - provider: NuGet
    server: https://www.myget.org/F/semanticversion/api/v2/package
    api_key:
-     secure: gVusLPBSkj8dZYonwkaCMwLBuzZ6UX53oWWboviETAU=
+     secure: DRVKVWWmTJq4f2yptTWqeRPgl1IyxejAelfMcKsENlrgHtd18IkZTqFbXscpnujk
    skip_symbols: false
    symbol_server: https://www.myget.org/F/semanticversion/api/v2/package
    on:
@@ -25,7 +25,7 @@ deploy:
  - provider: NuGet
    server: https://www.myget.org/F/semanticversion/api/v2/package
    api_key:
-     secure: gVusLPBSkj8dZYonwkaCMwLBuzZ6UX53oWWboviETAU=
+     secure: DRVKVWWmTJq4f2yptTWqeRPgl1IyxejAelfMcKsENlrgHtd18IkZTqFbXscpnujk
    skip_symbols: true
    on:
      configuration: Release
