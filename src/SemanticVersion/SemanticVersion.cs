@@ -14,7 +14,7 @@
     /// </summary>
     public class SemanticVersion : IEquatable<SemanticVersion>, IComparable<SemanticVersion>
     {
-        private static IComparer<SemanticVersion> Comparer = new VersionComparer();
+        private static IComparer<SemanticVersion> comparer = new VersionComparer();
 
         private static readonly Regex VersionExpression = new Regex(@"^(?<major>[0-9]+|[*])(\.(?<minor>[0-9]+|[*]))?(\.(?<patch>[0-9]+|[*]))?(\-(?<pre>[0-9A-Za-z\-\.]+|[*]))?(\+(?<build>[0-9A-Za-z\-\.]+|[*]))?$", RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
 
@@ -50,22 +50,22 @@
 
         public static bool operator ==(SemanticVersion left, SemanticVersion right)
         {
-           return Comparer.Compare(left, right) == 0;
+            return comparer.Compare(left, right) == 0;
         }
 
         public static bool operator !=(SemanticVersion left, SemanticVersion right)
         {
-            return Comparer.Compare(left, right) != 0;
+            return comparer.Compare(left, right) != 0;
         }
 
         public static bool operator <(SemanticVersion left, SemanticVersion right)
         {
-            return Comparer.Compare(left, right) < 0;
+            return comparer.Compare(left, right) < 0;
         }
 
         public static bool operator >(SemanticVersion left, SemanticVersion right)
         {
-            return Comparer.Compare(left, right) > 0;
+            return comparer.Compare(left, right) > 0;
         }
 
         public static bool operator <=(SemanticVersion left, SemanticVersion right)
@@ -110,9 +110,11 @@
             return new SemanticVersion(major, minor, patch, string.Empty, build);
         }
 
+        /// <summary>Change the comparer used to compare two <see cref="SemanticVersion"/> objects.</summary>
+        /// <param name="versionComparer">An instance of the comparer to use in future comparisons.</param>
         public static void ChangeComparer(IComparer<SemanticVersion> versionComparer)
         {
-            Comparer = versionComparer;
+            comparer = versionComparer;
         }
 
         /// <summary>Describes the first public api version.</summary>
@@ -200,19 +202,19 @@
         /// <inheritdoc />
         public bool Equals(SemanticVersion other)
         {
-            return Comparer.Compare(this, other) == 0;
+            return comparer.Compare(this, other) == 0;
         }
 
         /// <inheritdoc />
         public int CompareTo(object obj)
         {
-            return Comparer.Compare(this, obj as SemanticVersion);
+            return comparer.Compare(this, obj as SemanticVersion);
         }
 
         /// <inheritdoc />
         public int CompareTo(SemanticVersion other)
         {
-            return Comparer.Compare(this, other);
+            return comparer.Compare(this, other);
         }
 
         /// <inheritdoc />
