@@ -10,11 +10,8 @@ This library aims to provide a strict implementation of the version standard wit
 An extension of the the standard includes a method to parse multiple versions from a string into a set of versions (also called: *version range*) and partial versions. Partial versions are mostly syntactic sugar for a version range and will be described in more detail below.
 
 ### Equality
-Usually equality in the C# sense means that `object.Equals` and `==`/`!=` imply the same. In this library this is not always the case however.
-A test for equality via the `SemanticVersion.Equals` methods compare the entire version with each of it's components for equality. This means, that `1.0.0 == 1.0.0 != 1.0.0+1234` equals to true. This is an intended break from the usual equality comparison behaviour.
-
-A user wanting to compare two versions as described in the semantic version standard should either roll out their own `IComparer<SemanticVersion>`or use the `SemanticVersion.CompareTo` method, which will compare each component, *except* the build component.
-This also holds true for the equality (`==`/`!=`) and ordering (`<`, `<=`, `>`, `>=`) operators, which do their equality/ordering comparison as described in the standard.
+By default this library compares two semantic versions as described in the standard. This means, that `1.0.0 == 1.0.0 == 1.0.0+1234` equals to true, but `1.2.0 == 1.2.0-alpha` equals to false.
+If a different comparison behaviour is intended a user can roll out their own implementation of the `IComparer<SemanticVersion>` interface and pass it to the version via the static factory method `SemanticVersion.ChangeComparer`. Usually it is not necessary to  implement the `IEqualityComparer<T>` interface, since two versions are considered equal if `CompareTo == 0` applies. However the reference equality comparer implements this interface, too.
 
 ### Parsing
 This library supports implicit casting from strings into a suitable semantic version object. Parsing via an implicit conversion will -- like the `SemanticVersion.Parse` method -- throw an error, if the string has the wrong format. Additionally the `SemanticVersion` class includes a `TryParse` method which returns `true` if the cast was successful. See the documentation for additional details.
