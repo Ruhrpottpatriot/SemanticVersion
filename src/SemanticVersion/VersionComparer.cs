@@ -7,7 +7,7 @@
         /// <inheritdoc/>
         public bool Equals(SemanticVersion left, SemanticVersion right)
         {
-            return left.Compare(left, right) == 0;
+            return this.Compare(left, right) == 0;
         }
 
         /// <inheritdoc/>
