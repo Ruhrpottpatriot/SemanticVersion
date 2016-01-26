@@ -1,0 +1,31 @@
+version: '0.4.0+{build}'
+configuration:
+- Debug
+- Release
+platform: Any CPU
+init:
+ - ps: $Env:DNX_BUILD_VERSION = "CI" + $Env:APPVEYOR_BUILD_NUMBER.PadLeft(5, "0")
+install:
+- dnvm upgrade -r clr
+- dnu restore
+build:
+  parallel: true
+test: off
+artifacts:
+  - path: artifacts\bin\SemanticVersion\**\*.nupkg
+deploy:
+ - provider: NuGet
+   server: https://www.myget.org/F/semanticversion/api/v2/package
+   api_key:
+     secure: cbbda4b5-a72c-4c9f-baf7-6b3a545
+   skip_symbols: false
+   symbol_server: https://www.myget.org/F/textfx/api/v2/package
+   on:
+     configuration: Debug
+ - provider: NuGet
+   server: https://www.myget.org/F/semanticversion/api/v2/package
+   api_key:
+     secure: cbbda4b5-a72c-4c9f-baf7-6b3a54570f6a
+   skip_symbols: true
+   on:
+     configuration: Release
