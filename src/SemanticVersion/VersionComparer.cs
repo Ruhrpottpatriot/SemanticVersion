@@ -7,7 +7,7 @@
         /// <inheritdoc/>
         public bool Equals(SemanticVersion left, SemanticVersion right)
         {
-            return this.Compare(left, right) == 0;
+            return left.Compare(left, right) == 0;
         }
 
         /// <inheritdoc/>
@@ -23,25 +23,25 @@
                 return 1;
             }
 
-            int majorComp = this.Major.CompareToBoxed(other.Major);
+            int majorComp = left.Major.CompareToBoxed(right.Major);
             if (majorComp != 0)
             {
                 return majorComp;
             }
 
-            int minorComp = this.Minor.CompareToBoxed(other.Minor);
+            int minorComp = left.Minor.CompareToBoxed(right.Minor);
             if (minorComp != 0)
             {
                 return minorComp;
             }
 
-            int patchComp = this.Patch.CompareToBoxed(other.Patch);
+            int patchComp = left.Patch.CompareToBoxed(right.Patch);
             if (patchComp != 0)
             {
                 return patchComp;
             }
 
-            return this.Prerelease.CompareComponent(other.Prerelease);
+            return left.Prerelease.CompareComponent(right.Prerelease);
         }
 
         /// <inheritdoc/>

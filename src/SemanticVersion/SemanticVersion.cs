@@ -218,7 +218,7 @@
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return this.Equals(obj as SemanticVersion) == 0;
+            return this.Equals(obj as SemanticVersion);
         }
 
         /// <inheritdoc />
