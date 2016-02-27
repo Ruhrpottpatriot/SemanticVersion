@@ -126,15 +126,19 @@
         /// <summary>Parses the specified string to a semantic version.</summary>
         /// <param name="versionString">The version string.</param>
         /// <returns>A new <see cref="SemanticVersion"/> object that has the specified values.</returns>
+        /// <exception cref="ArgumentNullException">Raised when the input string is null.</exception>
         /// <exception cref="ArgumentException">Raised when the the whole version string is in an invalid format.</exception>
         /// <exception cref="InvalidOperationException">Raised when some part of the version string has an invalid format.</exception>
         public static SemanticVersion Parse(string versionString)
         {
+            if (versionString == null)
+                throw new ArgumentNullException(nameof(versionString));
+
             SemanticVersion version;
+
             if (!TryParse(versionString, out version))
-            {
-                throw new ArgumentException("The provided version string is invalid", nameof(versionString));
-            }
+                throw new ArgumentException("The provided version string is invalid.", nameof(versionString));
+
             return version;
         }
 
@@ -146,13 +150,15 @@
         /// <returns><c>False</c> when a invalid version string is passed, otherwise <c>true</c>.</returns>
         public static bool TryParse(string versionString, out SemanticVersion version)
         {
+            version = null;
+
+            if (versionString == null)
+                return false;
+
             Match versionMatch = VersionExpression.Match(versionString);
 
             if (!versionMatch.Success)
-            {
-                version = null;
                 return false;
-            }
 
             // Parse the major component, if the match equals to "*",
             // we return a version that matches everty version.
