@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Linq.Expressions;
 
+    /// <summary>Provides methods to parse a string into an appropriate <see cref="Expression"/> tree or <see cref="Func{T,TResult}"/></summary>
     public class RangeParser
     {
         private readonly Stack<Expression> expressionStack = new Stack<Expression>();
@@ -12,11 +13,18 @@
 
         private readonly ParameterExpression variableExpression = Expression.Parameter(typeof(SemanticVersion));
 
+        /// <summary>Create a <see cref="Func{T,TResult}"/> based upon valid version string.</summary>
+        /// <param name="range">The range string to parse.</param>
+        /// <returns>A useable <see cref="Func{T,TResult}"/> to evaluate a <see cref="SemanticVersion"/> against.</returns>
+        /// <remarks>This method calls the <see cref="Parse"/> method internally and compiles the returned expression tree into a func.</remarks>
         public Func<SemanticVersion, bool> Evaluate(string range)
         {
             return this.Parse(range).Compile();
         }
 
+        /// <summary>Parses a range string into an expression tree.</summary>
+        /// <param name="range">The range string to parse.</param>
+        /// <returns>An expression tree representing the version range.</returns>
         public Expression<Func<SemanticVersion, bool>> Parse(string range)
         {
             if (string.IsNullOrWhiteSpace(range))

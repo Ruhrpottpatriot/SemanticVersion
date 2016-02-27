@@ -7,11 +7,7 @@
     using System.Text.RegularExpressions;
 
 
-    // This project can output the Class library as a NuGet Package.
-    // To enable this option, right-click on the project and select the Properties menu item. In the Build tab select "Produce outputs on build".
-    /// <summary>
-    /// Reprensents a verrsion, compliant with the Semantic Version standard 2.0 (http://semver.org)
-    /// </summary>
+    /// <summary>Reprensents a version object, compliant with the Semantic Version standard 2.0 (http://semver.org)</summary>
     public class SemanticVersion : IEquatable<SemanticVersion>, IComparable<SemanticVersion>
     {
         private static IComparer<SemanticVersion> comparer = new VersionComparer();
@@ -84,6 +80,7 @@
 
         public static implicit operator SemanticVersion(string versionString)
         {
+            // ReSharper disable once ArrangeStaticMemberQualifier
             return SemanticVersion.Parse(versionString);
         }
 

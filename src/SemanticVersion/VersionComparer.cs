@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
 
+    /// <summary>Compares two <see cref="SemanticVersion"/> ojects for equality.</summary>
     public sealed class VersionComparer : IEqualityComparer<SemanticVersion>, IComparer<SemanticVersion>
     {
         /// <inheritdoc/>
