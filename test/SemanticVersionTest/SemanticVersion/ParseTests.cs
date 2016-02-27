@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SemanticVersionTest
+﻿namespace SemanticVersionTest
 {
+    using System;
     using SemVersion;
-
     using Xunit;
 
     // This project can output the Class library as a NuGet Package.
@@ -61,6 +56,24 @@ namespace SemanticVersionTest
         public void ParseMajorWildcard()
         {
             var version = SemanticVersion.Parse("1.*");
+        }
+
+        [Fact]
+        public void ParseNullThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => SemanticVersion.Parse(null));
+        }
+
+        [Fact]
+        public void ParseEmptyStringThrows()
+        {
+            Assert.Throws<ArgumentException>(() => SemanticVersion.Parse(string.Empty));
+        }
+
+        [Fact]
+        public void ParseInvalidStringThrows()
+        {
+            Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("invalid-version"));
         }
 
         [Fact]
