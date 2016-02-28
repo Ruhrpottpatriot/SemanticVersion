@@ -10,10 +10,10 @@ namespace SemanticVersionTest
         public void TryParseReturnsVersion()
         {
             SemanticVersion version;
-            var result = SemanticVersion.TryParse("1.1.1", out version);
+            var result = SemanticVersion.TryParse("1.2.3", out version);
 
             Assert.True(result);
-            Assert.Equal(new SemanticVersion(1, 1, 1), version);
+            Assert.Equal(new SemanticVersion(1, 2, 3), version);
         }
 
         [Fact]
@@ -47,10 +47,116 @@ namespace SemanticVersionTest
         }
 
         [Fact]
-        public void TryParseNonStandardReturnsFalse()
+        public void TryParseMissingMinorReturnsFalse()
         {
             SemanticVersion version;
             var result = SemanticVersion.TryParse("1", out version);
+
+            Assert.False(result);
+            Assert.Null(version);
+        }
+
+        [Fact]
+        public void TryParseMissingPatchReturnsFalse()
+        {
+            SemanticVersion version;
+            var result = SemanticVersion.TryParse("1.2", out version);
+
+            Assert.False(result);
+            Assert.Null(version);
+        }
+
+        [Fact]
+        public void TryParseMissingPatchWithPrereleaseReturnsFalse()
+        {
+            SemanticVersion version;
+            var result = SemanticVersion.TryParse("1.2-alpha", out version);
+
+            Assert.False(result);
+            Assert.Null(version);
+        }
+
+        [Fact]
+        public void TryParseMajorWildcard()
+        {
+            SemanticVersion version;
+            var result = SemanticVersion.TryParse("*", out version);
+
+            Assert.True(result);
+            Assert.Equal(null, version.Major);
+            Assert.Equal(null, version.Minor);
+            Assert.Equal(null, version.Patch);
+        }
+
+        [Fact]
+        public void TryParseMinorWildcard()
+        {
+            SemanticVersion version;
+            var result = SemanticVersion.TryParse("1.*", out version);
+
+            Assert.True(result);
+            Assert.Equal(1, version.Major);
+            Assert.Equal(null, version.Minor);
+            Assert.Equal(null, version.Patch);
+        }
+
+        [Fact]
+        public void TryParsePatchWildcard()
+        {
+            SemanticVersion version;
+            var result = SemanticVersion.TryParse("1.2.*", out version);
+
+            Assert.True(result);
+            Assert.Equal(1, version.Major);
+            Assert.Equal(2, version.Minor);
+            Assert.Equal(null, version.Patch);
+        }
+
+        [Fact(Skip = "Needs check with specification and regex refactoring")]
+        public void TryParseWildcardWithMinorReturnsFalse()
+        {
+            SemanticVersion version;
+            var result = SemanticVersion.TryParse("*.2", out version);
+
+            Assert.False(result);
+            Assert.Null(version);
+        }
+
+        [Fact(Skip = "Needs check with specification and regex refactoring")]
+        public void TryParseWildcardWithMinorAndPatchReturnsFalse()
+        {
+            SemanticVersion version;
+            var result = SemanticVersion.TryParse("*.2.3", out version);
+
+            Assert.False(result);
+            Assert.Null(version);
+        }
+
+        [Fact(Skip = "Needs check with specification and regex refactoring")]
+        public void TryParseWildcardInMiddleReturnsFalse()
+        {
+            SemanticVersion version;
+            var result = SemanticVersion.TryParse("1.*.3", out version);
+
+            Assert.False(result);
+            Assert.Null(version);
+        }
+
+        [Fact(Skip = "Needs check with specification and regex refactoring")]
+        public void TryParseMinorWildcardWithPrereleaseReturnsFalse()
+        {
+            SemanticVersion version;
+            var result = SemanticVersion.TryParse("1.*-alpha", out version);
+
+            Assert.False(result);
+            Assert.Null(version);
+        }
+
+        [Fact(Skip = "Needs check with specification and regex refactoring")]
+        public void TryParsePatchWildcardWithPrereleaseReturnsFalse()
+        {
+            SemanticVersion version;
+            var result = SemanticVersion.TryParse("1.2.*-alpha", out version);
 
             Assert.False(result);
             Assert.Null(version);
