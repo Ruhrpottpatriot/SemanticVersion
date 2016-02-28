@@ -12,7 +12,8 @@
     {
         private static IComparer<SemanticVersion> comparer = new VersionComparer();
 
-        private static readonly Regex VersionExpression = new Regex(@"^(?<major>[0-9]+|[*])(\.(?<minor>[0-9]+|[*]))?(\.(?<patch>[0-9]+|[*]))?(\-(?<pre>[0-9A-Za-z\-\.]+|[*]))?(\+(?<build>[0-9A-Za-z\-\.]+|[*]))?$", RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
+        private static readonly Regex VersionExpression = new Regex(@"^(?<major>[0-9]+|[*])((\.(?<minor>[0-9]+|[*]))(\.(?<patch>[0-9]+|[*]))?)?(\-(?<pre>[0-9A-Za-z\-\.]+|[*]))?(\+(?<build>[0-9A-Za-z\-\.]+|[*]))?$",
+            RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
 
         /// <summary>Initializese a new instance of the <see cref="SemanticVersion"/> class.</summary>
         /// <param name="major">The major version component.</param>
@@ -127,8 +128,7 @@
         /// <param name="versionString">The version string.</param>
         /// <returns>A new <see cref="SemanticVersion"/> object that has the specified values.</returns>
         /// <exception cref="ArgumentNullException">Raised when the input string is null.</exception>
-        /// <exception cref="ArgumentException">Raised when the the whole version string is in an invalid format.</exception>
-        /// <exception cref="InvalidOperationException">Raised when some part of the version string has an invalid format.</exception>
+        /// <exception cref="ArgumentException">Raised when the the input string is in an invalid format.</exception>
         public static SemanticVersion Parse(string versionString)
         {
             if (versionString == null)
@@ -155,48 +155,57 @@
             if (versionString == null)
                 return false;
 
-            Match versionMatch = VersionExpression.Match(versionString);
+            var versionMatch = VersionExpression.Match(versionString);
 
             if (!versionMatch.Success)
                 return false;
 
+            var majorMatch = versionMatch.Groups["major"];
+            var minorMatch = versionMatch.Groups["minor"];
+            var patchMatch = versionMatch.Groups["patch"];
+            var prereleaseMatch = versionMatch.Groups["pre"];
+            var buildMatch = versionMatch.Groups["build"];
+
             // Parse the major component, if the match equals to "*",
             // we return a version that matches everty version.
-            Group majorMatch = versionMatch.Groups["major"];
             if (majorMatch.Value == "*")
             {
                 version = new SemanticVersion(null, null, null);
                 return true;
             }
-            int? major = int.Parse(majorMatch.Value, CultureInfo.InvariantCulture);
+
+            var major = int.Parse(majorMatch.Value, CultureInfo.InvariantCulture);
 
             // Parse the minor component, if the match equals to "*",
             // we return a version that matches every minor version
             // for a specified major version.
-            Group minorMatch = versionMatch.Groups["minor"];
+            if (!minorMatch.Success)
+                return false;
+
             if (minorMatch.Value == "*")
             {
                 version = new SemanticVersion(major, null, null);
                 return true;
             }
-            int? minor = int.Parse(minorMatch.Value, CultureInfo.InvariantCulture);
+
+            var minor = int.Parse(minorMatch.Value, CultureInfo.InvariantCulture);
 
             // Parse the patch component, if the match equals to "*",
             // we return a version that matches every patch version
             // for a specified major and minor version
-            Group patchMatch = versionMatch.Groups["patch"];
+            if (!patchMatch.Success)
+                return false;
+
             if (patchMatch.Value == "*")
             {
                 version = new SemanticVersion(major, minor, null);
                 return true;
             }
-            int? patch = int.Parse(patchMatch.Value, CultureInfo.InvariantCulture);
+
+            var patch = int.Parse(patchMatch.Value, CultureInfo.InvariantCulture);
 
             // Parse the patch and build components
-            Group prereleaseMatch = versionMatch.Groups["pre"];
             string prerelease = prereleaseMatch.Value != "*" ? prereleaseMatch.Value : string.Empty;
-
-            Group buildMatch = versionMatch.Groups["build"];
             string build = buildMatch.Value != "*" ? buildMatch.Value : string.Empty;
 
             version = new SemanticVersion(major, minor, patch, prerelease, build);

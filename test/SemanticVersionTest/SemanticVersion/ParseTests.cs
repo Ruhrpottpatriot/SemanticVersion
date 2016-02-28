@@ -53,12 +53,6 @@
         }
 
         [Fact]
-        public void ParseMajorWildcard()
-        {
-            var version = SemanticVersion.Parse("1.*");
-        }
-
-        [Fact]
         public void ParseNullThrowsArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => SemanticVersion.Parse(null));
@@ -77,27 +71,21 @@
         }
 
         [Fact]
-        public void ParseFail()
+        public void ParseMissingMinorThrows()
         {
-            Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("foo-1.232+1"));
+            Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("1"));
         }
 
         [Fact]
-        public void ParseInvalidOperationNoMinorNoPatch()
+        public void ParseMissingPatchThrows()
         {
-            Assert.Throws<InvalidOperationException>(() => SemanticVersion.Parse("1"));
+            Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("1.2"));
         }
 
         [Fact]
-        public void ParseInvalidOperationNoPatch()
+        public void ParseMissingPatchWithPrereleaseThrows()
         {
-            Assert.Throws<InvalidOperationException>(() => SemanticVersion.Parse("1.3"));
-        }
-
-        [Fact]
-        public void ParseInvalidOperationNoPatchWithPrerelease()
-        {
-            Assert.Throws<InvalidOperationException>(() => SemanticVersion.Parse("1.3-alpha"));
+            Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("1.2-alpha"));
         }
 
         [Fact]
@@ -113,7 +101,7 @@
         [Fact]
         public void ImplicitConversionFail()
         {
-            Assert.Throws<InvalidOperationException>(() =>
+            Assert.Throws<ArgumentException>(() =>
             {
                 SemanticVersion version = "1";
             });
