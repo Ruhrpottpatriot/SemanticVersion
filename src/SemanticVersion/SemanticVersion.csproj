@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>A portable semantic version class library compliant with the 2.0 SemanticVersion standard (http://semver.org) </Description>
+    <AssemblyTitle>Semantic Version .NET</AssemblyTitle>
+    <Authors>Robert Logiewa</Authors>
+    <TargetFrameworks>net452</TargetFrameworks>
+    <AssemblyName>SemanticVersion</AssemblyName>
+    <PackageId>SemanticVersion</PackageId>
+    <PackageTags>SemanticVersion;Semantic Version</PackageTags>
+    <PackageProjectUrl>https://github.com/Ruhrpottpatriot/SemanticVersion</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Ruhrpottpatriot/SemanticVersion/blob/master/LICENSE</PackageLicenseUrl>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+  </PropertyGroup>
+
+<!--
+  <ItemGroup Condition=" '$(TargetFramework)' == 'dnx451' ">
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'dnxcore50' ">
+    <PackageReference Include="Microsoft.CSharp" Version="4.0.1" />
+    <PackageReference Include="System.Collections" Version="4.0.11" />
+    <PackageReference Include="System.Linq" Version="4.1.0" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.1.0" />
+  </ItemGroup>
+-->
+
+</Project>
