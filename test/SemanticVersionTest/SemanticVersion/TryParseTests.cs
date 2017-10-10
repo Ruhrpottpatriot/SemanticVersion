@@ -108,9 +108,9 @@ namespace SemanticVersionTest
             var result = SemanticVersion.TryParse("*", out version);
 
             Assert.True(result);
-            Assert.Equal(null, version.Major);
-            Assert.Equal(null, version.Minor);
-            Assert.Equal(null, version.Patch);
+            Assert.Null(version.Major);
+            Assert.Null(version.Minor);
+            Assert.Null(version.Patch);
         }
 
         [Fact]
@@ -131,8 +131,8 @@ namespace SemanticVersionTest
 
             Assert.True(result);
             Assert.Equal(1, version.Major);
-            Assert.Equal(null, version.Minor);
-            Assert.Equal(null, version.Patch);
+            Assert.Null(version.Minor);
+            Assert.Null(version.Patch);
         }
 
 
@@ -155,7 +155,7 @@ namespace SemanticVersionTest
             Assert.True(result);
             Assert.Equal(1, version.Major);
             Assert.Equal(2, version.Minor);
-            Assert.Equal(null, version.Patch);
+            Assert.Null(version.Patch);
         }
 
         [Fact]
@@ -185,23 +185,23 @@ namespace SemanticVersionTest
             bool result = false;
             string verStr;
 
-            foreach (var major in testValues) {
-                foreach (var minor in testValues) {
-                    foreach (var patch in testValues) {
+            foreach (var major in invalidAtoms) {
+                foreach (var minor in validAtoms) {
+                    foreach (var patch in validAtoms) {
 
                         verStr = string.Format("{0}.{1}.{2}", major, minor, patch);
                         result = SemanticVersion.TryParse(verStr, out version);
                         Assert.False(result, verStr);
                         Assert.Null(version);
 
-                        foreach (var prerelease in testValues) {
+                        foreach (var prerelease in validAtoms) {
 
                             verStr = string.Format("{0}.{1}.{2}-{3}", major, minor, patch, prerelease);
                             result = SemanticVersion.TryParse(verStr, out version);
                             Assert.False(result, verStr);
                             Assert.Null(version);
 
-                            foreach (var build in testValues) {
+                            foreach (var build in validAtoms) {
 
                                 verStr = string.Format("{0}.{1}.{2}-{3}+{4}", major, minor, patch, prerelease, build);
                                 result = SemanticVersion.TryParse(verStr, out version);
