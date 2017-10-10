@@ -7,7 +7,7 @@ namespace SemanticVersionTest
     public class OperatorTests
     {
         [Fact]
-        public void Equals()
+        public void Verify_Equals()
         {
             SemanticVersion left = new SemanticVersion(1, 0, 0);
             SemanticVersion right = new SemanticVersion(1, 0, 0);
@@ -16,7 +16,7 @@ namespace SemanticVersionTest
         }
 
         [Fact]
-        public void NotEquals()
+        public void Verify_NotEquals()
         {
             SemanticVersion left = new SemanticVersion(1, 0, 0);
             SemanticVersion right = new SemanticVersion(2, 0, 0);

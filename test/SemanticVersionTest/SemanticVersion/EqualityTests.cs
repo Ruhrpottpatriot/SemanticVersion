@@ -12,7 +12,7 @@ namespace SemanticVersionTest
     public class EqualityTests
     {
         [Fact]
-        public void Equals()
+        public void Verify_Equals()
         {
             SemanticVersion left = new SemanticVersion(1, 0, 0);
             SemanticVersion right = new SemanticVersion(1, 0, 0);

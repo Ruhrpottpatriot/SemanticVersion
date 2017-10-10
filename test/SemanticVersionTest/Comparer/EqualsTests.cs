@@ -9,7 +9,7 @@
     public class EqualsTests
     {
         [Fact]
-        public void ReferenceEquals()
+        public void Verify_ReferenceEquals()
         {
             SemanticVersion version = new SemanticVersion(1, 0, 0);
             

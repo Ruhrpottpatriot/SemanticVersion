@@ -1,0 +1,23 @@
+TODO
+
+Rules by spec (http://semver.org/)
+ 2. Mj, Mn, Patch must be non-negative int without leading zero
+ 7. Patch must be set to 0 on increasing Minor 
+ 8. Patch & Minor must be set to 0 on increasing Major 
+ 9. Pre-release MAY be used; begins with hyphen immediately following Patch
+    Pre-R may be comprised of ASCII alphanumeric identifiers
+    Pre-R may be dot separated identifiers which MUST NOT be empty and MUST NOT lead zero
+    Pre-R indicates potential instability or lack back-compat
+10. Build MAY be used; begins with plus sign following Patch or Pre-R
+      may be comprised of ASCII alphanumeric identifiers
+      may be dot separated identifiers which MUST NOT be empty and MUST NOT lead zero
+      indicates potential instability or lack back-compat
+      SHOULD be ignored for version precedence
+11. Precedence MUST be calc'd by separating Mj, Mn, Patch, Pre-R; Build must be excluded
+    Pre-R has lower precedence than same ver w/no Pre-R (1.0.0-alpha < 1.0.0)
+    Equiv vers with Pre-Rs MUST be compared on a dotted segment basis, L to R.
+       Alphanumberic are compared lexically using ASCII sort order
+       Numeric identifiers have lower precedence than alphanumeric
+       Larger set of Pre-R fields has higher precedence
+    1.0.0-alpha < 1.0.0-alpha.1 < 1.0.0-alpha.beta < 1.0.0-beta < 1.0.0-beta.2 < 1.0.0-beta.11 < 1.0.0-rc.1 < 1.0.0
+
