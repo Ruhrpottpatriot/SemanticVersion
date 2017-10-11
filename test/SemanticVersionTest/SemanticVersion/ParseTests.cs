@@ -19,6 +19,16 @@
         }
 
         [Fact]
+        public void ParseMaxInts()
+        {
+            SemanticVersion version = SemanticVersion.Parse(string.Format("{0}.{0}.{0}", int.MaxValue));
+
+            Assert.Equal(int.MaxValue, version.Major);
+            Assert.Equal(int.MaxValue, version.Minor);
+            Assert.Equal(int.MaxValue, version.Patch);
+        }
+
+        [Fact]
         public void ParsePrerelease()
         {
             SemanticVersion version = SemanticVersion.Parse("1.1.1-alpha-12");
@@ -100,6 +110,12 @@
         public void ParseMissingPatchWithPrereleaseThrows()
         {
             Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("1.2-alpha"));
+        }
+
+        [Fact]
+        public void ParseMissingLeadingHyphenForPrereleaseThrows()
+        {
+            Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("1.2.3.alpha"));
         }
 
         [Fact]
