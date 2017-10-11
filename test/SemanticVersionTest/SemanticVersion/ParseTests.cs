@@ -65,6 +65,20 @@
         }
 
         [Fact]
+        public void ParseWhitespaceThrows()
+        {
+            Assert.Throws<ArgumentException>(() => SemanticVersion.Parse(" "));
+        }
+
+        [Fact]
+        public void ParseLeadingZeroesThrows()
+        {
+            Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("01.1.1"));
+            Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("1.01.1"));
+            Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("1.1.01"));
+        }
+
+        [Fact]
         public void ParseInvalidStringThrows()
         {
             Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("invalid-version"));
