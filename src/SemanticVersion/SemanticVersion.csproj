@@ -4,7 +4,7 @@
     <Description>A portable semantic version class library compliant with the 2.0 SemanticVersion standard (http://semver.org) </Description>
     <AssemblyTitle>Semantic Version .NET</AssemblyTitle>
     <Authors>Robert Logiewa</Authors>
-    <TargetFrameworks>net452</TargetFrameworks>
+    <TargetFrameworks>netstandard1.0;netstandard2.0;net452</TargetFrameworks>
     <AssemblyName>SemanticVersion</AssemblyName>
     <PackageId>SemanticVersion</PackageId>
     <PackageTags>SemanticVersion;Semantic Version</PackageTags>

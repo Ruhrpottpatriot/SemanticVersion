@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Unit tests for SemanticVersion class library</Description>
     <Authors>Robert Logiewa</Authors>
-    <TargetFrameworks>net452</TargetFrameworks>
+    <TargetFrameworks>netcoreapp1.0;netcoreapp2.0;net452</TargetFrameworks>
     <AssemblyName>SemanticVersionTest</AssemblyName>
   </PropertyGroup>
 
