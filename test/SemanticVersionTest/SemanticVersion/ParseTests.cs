@@ -19,6 +19,19 @@
         }
 
         [Fact]
+        public void ParseValidZeroes()
+        {
+            SemanticVersion version = SemanticVersion.Parse("0.1.1");
+            Assert.Equal(0, version.Major);
+
+            version = SemanticVersion.Parse("1.0.1");
+            Assert.Equal(0, version.Minor);
+
+            version = SemanticVersion.Parse("1.1.0");
+            Assert.Equal(0, version.Patch);
+        }
+
+        [Fact]
         public void ParseMaxInts()
         {
             SemanticVersion version = SemanticVersion.Parse(string.Format("{0}.{0}.{0}", int.MaxValue));
@@ -86,6 +99,14 @@
             Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("01.1.1"));
             Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("1.01.1"));
             Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("1.1.01"));
+        }
+
+        [Fact]
+        public void ParseNegativeNumbersThrows()
+        {
+            Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("-1.1.1"));
+            Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("1.-1.1"));
+            Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("1.1.-1"));
         }
 
         [Fact]
