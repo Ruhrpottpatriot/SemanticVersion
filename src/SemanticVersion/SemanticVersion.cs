@@ -12,7 +12,7 @@
     {
         private static IComparer<SemanticVersion> comparer = new VersionComparer();
 
-        private static readonly Regex VersionExpression = new Regex(@"^(?<major>[1-9]+[0-9]*|[*])((\.(?<minor>[1-9]+[0-9]*|[*]))(\.(?<patch>[1-9]+[0-9]*|[*]))?)?(\-(?<pre>[0-9A-Za-z\-\.]+|[*]))?(\+(?<build>[0-9A-Za-z\-\.]+|[*]))?$",
+        private static readonly Regex VersionExpression = new Regex(@"^(?<major>[0]|[1-9]+[0-9]*|[*])((\.(?<minor>[0]|[1-9]+[0-9]*|[*]))(\.(?<patch>[0]|[1-9]+[0-9]*|[*]))?)?(\-(?<pre>[0-9A-Za-z\-\.]+|[*]))?(\+(?<build>[0-9A-Za-z\-\.]+|[*]))?$",
             RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
 
         /// <summary>Initializese a new instance of the <see cref="SemanticVersion"/> class.</summary>
