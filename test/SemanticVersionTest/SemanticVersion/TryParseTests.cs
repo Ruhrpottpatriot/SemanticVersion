@@ -216,14 +216,15 @@ namespace SemanticVersionTest
         }
 
 
-        [Fact(Skip = "Needs check with specification and regex refactoring")]
-        public void TryParseWildcardWithMinorReturnsFalse()
+        [Fact] //(Skip = "Needs check with specification and regex refactoring")]
+        public void TryParseWildcardWithMinor()
         {
             SemanticVersion version;
             var result = SemanticVersion.TryParse("*.2", out version);
 
-            Assert.False(result);
-            Assert.Null(version);
+            Assert.True(result);
+            Assert.NotNull(version);
+            Assert.Equal("*", version.ToString());
         }
 
         [Fact(Skip = "Needs check with specification and regex refactoring")]
