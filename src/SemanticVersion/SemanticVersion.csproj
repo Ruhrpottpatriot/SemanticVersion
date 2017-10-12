@@ -10,12 +10,6 @@
     <PackageTags>SemanticVersion;Semantic Version</PackageTags>
     <PackageProjectUrl>https://github.com/Ruhrpottpatriot/SemanticVersion</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/Ruhrpottpatriot/SemanticVersion/blob/master/LICENSE</PackageLicenseUrl>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
   </PropertyGroup>
 
 </Project>
