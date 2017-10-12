@@ -170,11 +170,11 @@ namespace SemanticVersionTest
 
 
         [Fact]
-        public void TryParseInvalidValues()
+        public void TryParseInvalidMajorMinorPatchValues()
         {
             SemanticVersion version;
-            var invalidAtoms = new string[] {"-01", "-1"};   // 00, 01 work, but violate "leading zero" restriction?
-            var validAtoms = new string[] {"0", "1", "10", "1000"};
+            var invalidAtoms = new string[] {"-01", "-1", "00", "01", "0 2"};
+            var validAtoms = new string[] {"0", "1", "10", "1234"};
 
             var list = new List<string>();
             list.AddRange(invalidAtoms);
