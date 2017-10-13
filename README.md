@@ -1,6 +1,7 @@
 # SemanticVersion.NET
-[![Build status](https://ci.appveyor.com/api/projects/status/a1lsuyalpn9u51ot?svg=true)](https://ci.appveyor.com/project/Ruhrpottpatriot/semanticversion)
-[![Build status](https://ci.appveyor.com/api/projects/status/a1lsuyalpn9u51ot/branch/master?svg=true)](https://ci.appveyor.com/project/Ruhrpottpatriot/semanticversion/branch/master)
+[![AltaModa dev CI](https://altamoda.visualstudio.com/_apis/public/build/definitions/0939118e-8ff6-4dd0-904f-67c3adf1aae6/3/badge)]
+[![Ruhrpot Patriot dev status](https://ci.appveyor.com/api/projects/status/a1lsuyalpn9u51ot?svg=true)](https://ci.appveyor.com/project/Ruhrpottpatriot/semanticversion)
+[![Ruhrpot Patriot master status](https://ci.appveyor.com/api/projects/status/a1lsuyalpn9u51ot/branch/master?svg=true)](https://ci.appveyor.com/project/Ruhrpottpatriot/semanticversion/branch/master)
 
 ## Abstract
 This project aims to implement the complete 2.0 semantic versions standard as a portable ASP.NET/DnxCore library. In addition to 2.0 standard features it extends the standard to allow users to specify version ranges via simple to use and know C# operators.
