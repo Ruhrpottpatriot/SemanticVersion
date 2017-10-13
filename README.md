@@ -1,5 +1,7 @@
 # SemanticVersion.NET
-[![AltaModa dev CI](https://altamoda.visualstudio.com/_apis/public/build/definitions/0939118e-8ff6-4dd0-904f-67c3adf1aae6/3/badge)]
+[![AltaModa dev CI](https://altamoda.visualstudio.com/_apis/public/build/definitions/0939118e-8ff6-4dd0-904f-67c3adf1aae6/3/badge)]()
+[![Visual Studio Team services](https://img.shields.io/vso/build/larsbrinkhoff/953a34b9-5966-4923-a48a-c41874cfb5f5/1.svg)]()
+
 [![Ruhrpot Patriot dev status](https://ci.appveyor.com/api/projects/status/a1lsuyalpn9u51ot?svg=true)](https://ci.appveyor.com/project/Ruhrpottpatriot/semanticversion)
 [![Ruhrpot Patriot master status](https://ci.appveyor.com/api/projects/status/a1lsuyalpn9u51ot/branch/master?svg=true)](https://ci.appveyor.com/project/Ruhrpottpatriot/semanticversion/branch/master)
 
