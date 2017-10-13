@@ -1,5 +1,6 @@
 # SemanticVersion.NET
 [![VSTS SemVer dev CI result badge](https://altamoda.visualstudio.com/_apis/public/build/definitions/0939118e-8ff6-4dd0-904f-67c3adf1aae6/3/badge)](https://altamoda.visualstudio.com/SemanticVersion/_Build/ "Build Definitions")
+[![using Shields.io](https://img.shields.io/vso/build/altamoda/0939118e-8ff6-4dd0-904f-67c3adf1aae6/3)](https://altamoda.visualstudio.com/SemanticVersion/_Build/?definitionId=3 "Build Definitions")
 
 
 [![Ruhrpot Patriot dev status](https://ci.appveyor.com/api/projects/status/a1lsuyalpn9u51ot?svg=true)](https://ci.appveyor.com/project/Ruhrpottpatriot/semanticversion "Ruhrpot Patriot dev status")
