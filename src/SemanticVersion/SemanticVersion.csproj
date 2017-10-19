@@ -3,6 +3,7 @@
   <PropertyGroup>
     <Description>A portable semantic version class library compliant with the 2.0 SemanticVersion standard (http://semver.org) </Description>
     <AssemblyTitle>Semantic Version .NET</AssemblyTitle>
+    <VersionPrefix>1.1</VersionPrefix>
     <Authors>Robert Logiewa; AltaModa Technologies</Authors>
     <TargetFrameworks>netstandard1.0;netstandard2.0;net452</TargetFrameworks>
     <AssemblyName>SemanticVersion</AssemblyName>
