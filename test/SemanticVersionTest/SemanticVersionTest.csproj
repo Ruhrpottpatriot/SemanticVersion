@@ -3,9 +3,9 @@
   <PropertyGroup>
     <Description>Unit tests for SemanticVersion class library</Description>
     <Authors>Robert Logiewa; AltaModa Technologies</Authors>
-    <TargetFrameworks>netcoreapp1.0;netcoreapp2.0;net452</TargetFrameworks>
     <AssemblyName>SemanticVersionTest</AssemblyName>
     <VersionPrefix>1.1</VersionPrefix>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,8 +14,15 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.*" />
-    <PackageReference Include="xunit" Version="2.*" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.*" />
+    <PackageReference Include="xunit" Version="2.2.*" />
+    <PackageReference Include="xunit.runner.console" Version="2.2.*" />
   </ItemGroup>
+
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
+      <TargetFrameworks>netcoreapp1.0;netcoreapp1.1;netcoreapp2.0;net452;net46;net461</TargetFrameworks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
+      <TargetFrameworks>netcoreapp1.0;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
+  </PropertyGroup>
 
 </Project>
