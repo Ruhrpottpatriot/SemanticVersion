@@ -2,9 +2,10 @@
 
   <PropertyGroup>
     <Description>Unit tests for SemanticVersion class library</Description>
-    <Authors>Robert Logiewa</Authors>
+    <Authors>Robert Logiewa; AltaModa Technologies</Authors>
     <TargetFrameworks>net452</TargetFrameworks>
     <AssemblyName>SemanticVersionTest</AssemblyName>
+    <VersionPrefix>1.1.0</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>
