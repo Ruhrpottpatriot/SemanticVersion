@@ -167,7 +167,7 @@
             var buildMatch = versionMatch.Groups["build"];
 
             // Parse the major component, if the match equals to "*",
-            // we return a version that matches everty version.
+            // we return a version that matches every version.
             if (majorMatch.Value == "*")
             {
                 version = new SemanticVersion(null, null, null);
