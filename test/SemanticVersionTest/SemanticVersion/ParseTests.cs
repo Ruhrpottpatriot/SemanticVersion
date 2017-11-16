@@ -4,8 +4,6 @@
     using SemVersion;
     using Xunit;
 
-    // This project can output the Class library as a NuGet Package.
-    // To enable this option, right-click on the project and select the Properties menu item. In the Build tab select "Produce outputs on build".
     public class ParseTests
     {
         [Fact]
@@ -88,7 +86,7 @@
         }
 
         [Fact]
-        public void ParseWhitespaceThrows()
+        public void ParseWhiteSpaceThrows()
         {
             Assert.Throws<ArgumentException>(() => SemanticVersion.Parse(" "));
         }
@@ -131,6 +129,12 @@
         public void ParseMissingPatchWithPrereleaseThrows()
         {
             Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("1.2-alpha"));
+        }
+
+        [Fact(Skip="Non-conformant: Parse allows leading zeroes.")]
+        public void ParseLeadingZeroThrows()
+        {
+            Assert.Throws<ArgumentException>(() => SemanticVersion.Parse("1.01.1"));
         }
 
         [Fact]
