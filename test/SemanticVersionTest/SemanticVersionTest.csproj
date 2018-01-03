@@ -5,6 +5,7 @@
     <Authors>Robert Logiewa; AltaModa Technologies</Authors>
     <AssemblyName>SemanticVersionTest</AssemblyName>
     <VersionPrefix>1.2</VersionPrefix>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
