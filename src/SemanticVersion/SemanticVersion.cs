@@ -12,7 +12,7 @@
     {
         private static IComparer<SemanticVersion> comparer = new VersionComparer();
 
-        private static readonly Regex VersionExpression = new Regex(@"^(?<major>[0-9]+|[*])((\.(?<minor>[0-9]+|[*]))(\.(?<patch>[0-9]+|[*]))?)?(\-(?<pre>[0-9A-Za-z\-\.]+|[*]))?(\+(?<build>[0-9A-Za-z\-\.]+|[*]))?$",
+        private static readonly Regex VersionExpression = new Regex(@"^(?<major>[0]|[1-9]+[0-9]*|[*])((\.(?<minor>[0]|[1-9]+[0-9]*|[*]))(\.(?<patch>[0]|[1-9]+[0-9]*|[*]))?)?(\-(?<pre>[0-9A-Za-z\-\.]+|[*]))?(\+(?<build>[0-9A-Za-z\-\.]+|[*]))?$",
             RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
 
         /// <summary>Initializese a new instance of the <see cref="SemanticVersion"/> class.</summary>
@@ -167,7 +167,7 @@
             var buildMatch = versionMatch.Groups["build"];
 
             // Parse the major component, if the match equals to "*",
-            // we return a version that matches everty version.
+            // we return a version that matches every version.
             if (majorMatch.Value == "*")
             {
                 version = new SemanticVersion(null, null, null);

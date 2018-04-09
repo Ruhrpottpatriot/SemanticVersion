@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>A portable semantic version class library compliant with the 2.0 SemanticVersion standard (http://semver.org) </Description>
+    <AssemblyTitle>Semantic Version .NET</AssemblyTitle>
+    <VersionPrefix>1.2</VersionPrefix>
+    <Authors>Robert Logiewa; AltaModa Technologies</Authors>
+    <AssemblyName>SemanticVersion</AssemblyName>
+    <PackageId>SemanticVersion</PackageId>
+    <PackageTags>SemanticVersion;Semantic Version</PackageTags>
+    <PackageProjectUrl>https://github.com/Ruhrpottpatriot/SemanticVersion</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Ruhrpottpatriot/SemanticVersion/blob/master/LICENSE</PackageLicenseUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
+      <TargetFrameworks>netstandard1.0;netstandard1.1;netstandard1.2;netstandard1.3;netstandard1.4;netstandard1.5;netstandard1.6;netstandard2.0;net452;net46;net461;net462</TargetFrameworks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
+      <TargetFrameworks>netstandard1.0;netstandard1.1;netstandard1.2;netstandard1.3;netstandard1.4;netstandard1.5;netstandard1.6;netstandard2.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- empty; just used for testing VSTS auto-triggered builds -->
+  </ItemGroup>
+
+</Project>

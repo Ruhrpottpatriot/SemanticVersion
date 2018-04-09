@@ -1,6 +1,13 @@
 # SemanticVersion.NET
-[![Build status](https://ci.appveyor.com/api/projects/status/a1lsuyalpn9u51ot?svg=true)](https://ci.appveyor.com/project/Ruhrpottpatriot/semanticversion)
-[![Build status](https://ci.appveyor.com/api/projects/status/a1lsuyalpn9u51ot/branch/master?svg=true)](https://ci.appveyor.com/project/Ruhrpottpatriot/semanticversion/branch/master)
+## AltaModa Build Results
+[![VSTS SemVer dev CI result badge](https://altamoda.visualstudio.com/_apis/public/build/definitions/0939118e-8ff6-4dd0-904f-67c3adf1aae6/3/badge)](https://altamoda.visualstudio.com/SemanticVersion/_Build/?definitionId=3 "CI build definition")
+[![SemVer Cont Deploy result](https://altamoda.visualstudio.com/_apis/public/build/definitions/0939118e-8ff6-4dd0-904f-67c3adf1aae6/4/badge)](https://altamoda.visualstudio.com/SemanticVersion/_Build/?definitionId=4 "CD build definition")
+
+
+## RuhrpotPatriot Build Results
+[![Ruhrpot Patriot dev status](https://ci.appveyor.com/api/projects/status/a1lsuyalpn9u51ot?svg=true)](https://ci.appveyor.com/project/Ruhrpottpatriot/semanticversion "Ruhrpot Patriot dev status")
+[![Ruhrpot Patriot master status](https://ci.appveyor.com/api/projects/status/a1lsuyalpn9u51ot/branch/master?svg=true)](https://ci.appveyor.com/project/Ruhrpottpatriot/semanticversion/branch/master "Ruhrpot Patriot master status")
+
 
 ## Abstract
 This project aims to implement the complete 2.0 semantic versions standard as a portable ASP.NET/DnxCore library. In addition to 2.0 standard features it extends the standard to allow users to specify version ranges via simple to use and know C# operators.
