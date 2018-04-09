@@ -56,22 +56,22 @@
             Assert.Equal(-1, left.CompareTo(right));
         }
 
-        [Fact(Skip="Broken")]
+        [Fact]
         public void CompareToBuildRightEmpty()
         {
             SemanticVersion left = new SemanticVersion(1, 1, 0, build:"abc");
             SemanticVersion right = new SemanticVersion(1, 1, 0);
 
-            Assert.Equal(1, left.CompareTo(right));
+            Assert.Equal(0, left.CompareTo(right));
         }
 
-        [Fact(Skip="Broken")]
+        [Fact]
         public void CompareToBuildLeftEmpty()
         {
             SemanticVersion left = new SemanticVersion(1, 1, 0);
             SemanticVersion right = new SemanticVersion(1, 1, 0, build: "abc");
 
-            Assert.Equal(-1, left.CompareTo(right));
+            Assert.Equal(0, left.CompareTo(right));
         }
     }
 }
