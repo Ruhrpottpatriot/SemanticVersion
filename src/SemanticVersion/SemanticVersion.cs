@@ -131,15 +131,16 @@
         /// <exception cref="ArgumentException">Raised when the the input string is in an invalid format.</exception>
         public static SemanticVersion Parse(string versionString)
         {
-            if (string.IsNullOrEmpty(versionString))
+            if (string.IsNullOrWhiteSpace(versionString))
             {
-                throw new ArgumentNullException(nameof(versionString));
+                throw new ArgumentException("The provided version string is either null, empty or only consits of whitespace.", nameof(versionString));
             }
 
             SemanticVersion version;
-
             if (!TryParse(versionString, out version))
+            {
                 throw new ArgumentException("The provided version string is invalid.", nameof(versionString));
+            }
 
             return version;
         }
@@ -155,12 +156,16 @@
             version = null;
 
             if (string.IsNullOrEmpty(versionString))
-            { return false; }
+            {
+                return false;
+            }
 
             var versionMatch = VersionExpression.Match(versionString);
 
             if (!versionMatch.Success)
-            { return false; }
+            {
+                return false;
+            }
 
             var majorMatch = versionMatch.Groups["major"];
             var minorMatch = versionMatch.Groups["minor"];
@@ -182,7 +187,9 @@
             // we return a version that matches every minor version
             // for a specified major version.
             if (!minorMatch.Success)
-            { return false; }
+            {
+                return false;
+            }
 
             if (minorMatch.Value == "*")
             {
@@ -196,7 +203,9 @@
             // we return a version that matches every patch version
             // for a specified major and minor version
             if (!patchMatch.Success)
-            { return false; }
+            {
+                return false;
+            }
 
             if (patchMatch.Value == "*")
             {
