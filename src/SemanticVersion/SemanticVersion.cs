@@ -12,7 +12,7 @@
     {
         private static IComparer<SemanticVersion> comparer = new VersionComparer();
 
-        private static readonly Regex VersionExpression = new Regex(@"^(?<major>[0-9]+|[*])((\.(?<minor>[0-9]+|[*]))(\.(?<patch>[0-9]+|[*]))?)?(\-(?<pre>[0-9A-Za-z\-\.]+|[*]))?(\+(?<build>[0-9A-Za-z\-\.]+|[*]))?$",
+        private static readonly Regex VersionExpression = new Regex(@"^(?<major>[0]|[1-9]+[0-9]*|[*])((\.(?<minor>[0]|[1-9]+[0-9]*|[*]))(\.(?<patch>[0]|[1-9]+[0-9]*|[*]))?)?(\-(?<pre>[0-9A-Za-z\-\.]+|[*]))?(\+(?<build>[0-9A-Za-z\-\.]+|[*]))?$",
             RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
 
         /// <summary>Initializese a new instance of the <see cref="SemanticVersion"/> class.</summary>
@@ -97,7 +97,7 @@
         {
             if (dotNetVersion == null)
             {
-                throw new ArgumentNullException(nameof(dotNetVersion), "The version to convert is null.");
+                throw new ArgumentNullException(nameof(dotNetVersion));
             }
 
             int major = dotNetVersion.Major;
@@ -131,13 +131,16 @@
         /// <exception cref="ArgumentException">Raised when the the input string is in an invalid format.</exception>
         public static SemanticVersion Parse(string versionString)
         {
-            if (versionString == null)
-                throw new ArgumentNullException(nameof(versionString));
+            if (string.IsNullOrWhiteSpace(versionString))
+            {
+                throw new ArgumentException("The provided version string is either null, empty or only consits of whitespace.", nameof(versionString));
+            }
 
             SemanticVersion version;
-
             if (!TryParse(versionString, out version))
+            {
                 throw new ArgumentException("The provided version string is invalid.", nameof(versionString));
+            }
 
             return version;
         }
@@ -152,13 +155,17 @@
         {
             version = null;
 
-            if (versionString == null)
+            if (string.IsNullOrEmpty(versionString))
+            {
                 return false;
+            }
 
             var versionMatch = VersionExpression.Match(versionString);
 
             if (!versionMatch.Success)
+            {
                 return false;
+            }
 
             var majorMatch = versionMatch.Groups["major"];
             var minorMatch = versionMatch.Groups["minor"];
@@ -167,7 +174,7 @@
             var buildMatch = versionMatch.Groups["build"];
 
             // Parse the major component, if the match equals to "*",
-            // we return a version that matches everty version.
+            // we return a version that matches every version.
             if (majorMatch.Value == "*")
             {
                 version = new SemanticVersion(null, null, null);
@@ -180,7 +187,9 @@
             // we return a version that matches every minor version
             // for a specified major version.
             if (!minorMatch.Success)
+            {
                 return false;
+            }
 
             if (minorMatch.Value == "*")
             {
@@ -194,7 +203,9 @@
             // we return a version that matches every patch version
             // for a specified major and minor version
             if (!patchMatch.Success)
+            {
                 return false;
+            }
 
             if (patchMatch.Value == "*")
             {
@@ -205,7 +216,7 @@
             var patch = int.Parse(patchMatch.Value, CultureInfo.InvariantCulture);
 
             // Parse the patch and build components
-            string prerelease = prereleaseMatch.Value != "*" ? prereleaseMatch.Value : string.Empty;
+            string prerelease = prereleaseMatch.Value;
             string build = buildMatch.Value != "*" ? buildMatch.Value : string.Empty;
 
             version = new SemanticVersion(major, minor, patch, prerelease, build);
@@ -255,35 +266,28 @@
         {
             StringBuilder builder = new StringBuilder();
 
-            if (this.Major.HasValue)
-            {
-                builder.Append($"{this.Major.Value}.");
-            }
-            else
+            if (!this.Major.HasValue)
             {
                 return "*";
             }
 
-            if (this.Minor.HasValue)
-            {
-                builder.Append($"{this.Minor.Value}.");
-            }
-            else
+            builder.Append($"{this.Major.Value}.");
+
+            if (!this.Minor.HasValue)
             {
                 builder.Append("*");
                 return builder.ToString();
             }
 
-            if (this.Patch.HasValue)
-            {
-                builder.Append($"{this.Patch.Value}");
-            }
-            else
+            builder.Append($"{this.Minor.Value}.");
+
+            if (!this.Patch.HasValue)
             {
                 builder.Append("*");
                 return builder.ToString();
             }
 
+            builder.Append($"{this.Patch.Value}");
             builder.Append(string.IsNullOrWhiteSpace(this.Prerelease) ? string.Empty : $"-{this.Prerelease}");
             builder.Append(string.IsNullOrWhiteSpace(this.Build) ? string.Empty : $"+{this.Build}");
 

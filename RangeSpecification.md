@@ -1,6 +1,6 @@
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119).
 
-The version management system used by anvil is a strict superset of the [2.0 Semantic version](http://semver.org/) standard. Every *single* version is also a valid **Semantic Version**
+The version system is a strict superset of the [2.0 Semantic version](http://semver.org/) standard. Every *single* version is also a valid **Semantic Version**
 
 # 'x'-Modifier
 For any of the Major, Minor or Patch version attributes an `x` MAY be substituted. This will declare the attribute as OPTIONAL.
@@ -8,7 +8,6 @@ For any of the Major, Minor or Patch version attributes an `x` MAY be substitute
 **Example:**
 * 1.x ⇔ >=1.0.0 ∧ <2.0.0
 * x.2.3 ⇔ {1.2.3, 2.2.3, 3.2.3, ...}
-
 
 
 # Ranges

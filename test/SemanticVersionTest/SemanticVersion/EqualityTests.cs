@@ -12,7 +12,7 @@ namespace SemanticVersionTest
     public class EqualityTests
     {
         [Fact]
-        public void Equals()
+        public void Verify_Equals()
         {
             SemanticVersion left = new SemanticVersion(1, 0, 0);
             SemanticVersion right = new SemanticVersion(1, 0, 0);
@@ -87,10 +87,9 @@ namespace SemanticVersionTest
         }
 
         [Fact]
-
         public void NotEqualsBuild()
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 0, "foo", "bar");
+            SemanticVersion left = new SemanticVersion(1, 0, 0, "foo3", "bar");
             SemanticVersion right = new SemanticVersion(1, 0, 0, "foo", "baz");
 
             Assert.False(left.Equals(right));
