@@ -5,12 +5,12 @@
 
 
 ## Ruhrpottpatriot Build Results
-[![Ruhrpot Patriot dev status](https://ci.appveyor.com/api/projects/status/a1lsuyalpn9u51ot?svg=true)](https://ci.appveyor.com/project/Ruhrpottpatriot/semanticversion "Ruhrpot Patriot dev status")
-[![Ruhrpot Patriot master status](https://ci.appveyor.com/api/projects/status/a1lsuyalpn9u51ot/branch/master?svg=true)](https://ci.appveyor.com/project/Ruhrpottpatriot/semanticversion/branch/master "Ruhrpot Patriot master status")
+[![Ruhrpottpatriot dev status](https://ci.appveyor.com/api/projects/status/a1lsuyalpn9u51ot?svg=true)](https://ci.appveyor.com/project/Ruhrpottpatriot/semanticversion "Ruhrpot Patriot dev status")
+[![Ruhrpottpatriot master status](https://ci.appveyor.com/api/projects/status/a1lsuyalpn9u51ot/branch/master?svg=true)](https://ci.appveyor.com/project/Ruhrpottpatriot/semanticversion/branch/master "Ruhrpot Patriot master status")
 
 
 ## Abstract
-This project aims to implement the complete 2.0 semantic versions standard as a portable ASP.NET/DnxCore library. In addition to 2.0 standard features it extends the standard to allow users to specify version ranges via simple to use and know C# operators.
+This project aims to implement the complete 2.0 semantic versions standard as a Netstandard library. In addition to 2.0 standard features it extends the standard to allow users to specify version ranges via simple to use and know C# operators.
 
 ## Description
 Current implementations of the semantic versions standard available on NuGet are either implemented as full .NET projects, or old PCL profiles. In many cases the last update to the codebase was from over a year ago and an update is not likely anymore. Since full .NET versions can't be used from ASP.NET/DnxCore projects and PCLs are sometimes a bit "wonky", a implementation based entirely on the new ASP.NET/DnxCore was in order.
@@ -37,7 +37,7 @@ In addition to the above operators, any equality (`==`/`!=`) and ordering (`<`, 
 If an expression has to be handled before another expression the expression can be wrapped into the `(` and `)` parentheses. This will raise the expressions precedence to the highest level. Nested parentheses are also possible.
 
 #### Operator Precedence
-All expressions in this library are left-assiciative, meaning if two expression with the same precedence have to be evaluated, the goes from left to right. Implicitly an expression with a higher precedence is evaluated before any expression with a lower precedence. The current precedence order is (frigh high to low):
+All expressions in this library are left-associative, meaning if two expression with the same precedence have to be evaluated, they are looked at from left to right. Implicitly an expression with a higher precedence is evaluated before any expression with a lower precedence. The current precedence order is (high to low):
 * Parentheses
 * AndAlso
 * OrElse
