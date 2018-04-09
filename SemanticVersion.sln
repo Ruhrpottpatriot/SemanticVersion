@@ -1,7 +1,6 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26114.2
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BE8D7B4B-92E3-46C8-9248-621571D4E621}"
 EndProject
@@ -12,9 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticVersion", "src\SemanticVersion\SemanticVersion.csproj", "{FE18B578-EB5D-46DC-B5D6-DC985CA84678}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SemanticVersion", "src\SemanticVersion\SemanticVersion.csproj", "{FE18B578-EB5D-46DC-B5D6-DC985CA84678}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticVersionTest", "test\SemanticVersionTest\SemanticVersionTest.csproj", "{EDC8F8E7-FC85-470A-B118-B0FD6E79D9C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SemanticVersionTest", "test\SemanticVersionTest\SemanticVersionTest.csproj", "{EDC8F8E7-FC85-470A-B118-B0FD6E79D9C5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F19B5110-E195-4F0F-B802-99FB687E6606}"
 EndProject
@@ -39,5 +38,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{FE18B578-EB5D-46DC-B5D6-DC985CA84678} = {BE8D7B4B-92E3-46C8-9248-621571D4E621}
 		{EDC8F8E7-FC85-470A-B118-B0FD6E79D9C5} = {F19B5110-E195-4F0F-B802-99FB687E6606}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {63522763-FF69-4990-AA02-8C9A710F3D8F}
 	EndGlobalSection
 EndGlobal
