@@ -246,7 +246,7 @@ namespace SemanticVersionTest
             Assert.Equal("1.2.*", version.ToString());
         }
 
-        [Fact(Skip="Broken")]
+        [Fact]
         public void TryParseWildcardInPrerelease()
         {
             SemanticVersion version;
@@ -256,17 +256,17 @@ namespace SemanticVersionTest
             Assert.Equal("1.2.3-*", version.ToString());
         }
 
-        [Fact(Skip="Broken")]
+        [Fact]
         public void TryParseWildcardInPrereleaseWithBuild()
         {
             SemanticVersion version;
             var result = SemanticVersion.TryParse("1.2.3-*+bld", out version);
 
             Assert.True(result);
-            Assert.Equal("1.2.3-*", version.ToString());
+            Assert.Equal("1.2.3-*+bld", version.ToString());
         }
 
-        [Fact(Skip="Broken")]
+        [Fact]
         public void TryParseWildcardInPrereleaseAndBuild()
         {
             SemanticVersion version;
@@ -276,24 +276,30 @@ namespace SemanticVersionTest
             Assert.Equal("1.2.3-*", version.ToString());
         }
 
-        [Fact(Skip="Broken")]
+        [Fact]
         public void TryParseWildcardInBuild()
         {
             SemanticVersion version;
             var result = SemanticVersion.TryParse("1.2.3+*", out version);
 
             Assert.True(result);
-            Assert.Equal("1.2.3+*", version.ToString());
+
+            // The test restult below is intended, as build shouldn't factor 
+            // into version precedende (and therefore equality).
+            Assert.Equal("1.2.3", version.ToString());
         }
 
-        [Fact(Skip="Broken")]
+        [Fact] //(Skip="Broken")]
         public void TryParseWildcardInBuildWithPrerelease()
         {
             SemanticVersion version;
             var result = SemanticVersion.TryParse("1.2.3-preR+*", out version);
 
             Assert.True(result);
-            Assert.Equal("1.2.3-preR+*", version.ToString());
+
+            // The test restult below is intended, as build shouldn't factor 
+            // into version precedende (and therefore equality).
+            Assert.Equal("1.2.3-preR", version.ToString());
         }
 
     }

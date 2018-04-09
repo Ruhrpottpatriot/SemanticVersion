@@ -216,7 +216,7 @@
             var patch = int.Parse(patchMatch.Value, CultureInfo.InvariantCulture);
 
             // Parse the patch and build components
-            string prerelease = prereleaseMatch.Value != "*" ? prereleaseMatch.Value : string.Empty;
+            string prerelease = prereleaseMatch.Value;
             string build = buildMatch.Value != "*" ? buildMatch.Value : string.Empty;
 
             version = new SemanticVersion(major, minor, patch, prerelease, build);
