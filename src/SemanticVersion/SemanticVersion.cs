@@ -97,7 +97,7 @@
         {
             if (dotNetVersion == null)
             {
-                throw new ArgumentNullException(nameof(dotNetVersion), "The version to convert is null.");
+                throw new ArgumentNullException(nameof(dotNetVersion));
             }
 
             int major = dotNetVersion.Major;
@@ -131,8 +131,10 @@
         /// <exception cref="ArgumentException">Raised when the the input string is in an invalid format.</exception>
         public static SemanticVersion Parse(string versionString)
         {
-            if (versionString == null)
+            if (string.IsNullOrEmpty(versionString))
+            {
                 throw new ArgumentNullException(nameof(versionString));
+            }
 
             SemanticVersion version;
 
@@ -152,13 +154,13 @@
         {
             version = null;
 
-            if (versionString == null)
-                return false;
+            if (string.IsNullOrEmpty(versionString))
+            { return false; }
 
             var versionMatch = VersionExpression.Match(versionString);
 
             if (!versionMatch.Success)
-                return false;
+            { return false; }
 
             var majorMatch = versionMatch.Groups["major"];
             var minorMatch = versionMatch.Groups["minor"];
@@ -180,7 +182,7 @@
             // we return a version that matches every minor version
             // for a specified major version.
             if (!minorMatch.Success)
-                return false;
+            { return false; }
 
             if (minorMatch.Value == "*")
             {
@@ -194,7 +196,7 @@
             // we return a version that matches every patch version
             // for a specified major and minor version
             if (!patchMatch.Success)
-                return false;
+            { return false; }
 
             if (patchMatch.Value == "*")
             {
@@ -255,35 +257,28 @@
         {
             StringBuilder builder = new StringBuilder();
 
-            if (this.Major.HasValue)
-            {
-                builder.Append($"{this.Major.Value}.");
-            }
-            else
+            if (!this.Major.HasValue)
             {
                 return "*";
             }
 
-            if (this.Minor.HasValue)
-            {
-                builder.Append($"{this.Minor.Value}.");
-            }
-            else
+            builder.Append($"{this.Major.Value}.");
+
+            if (!this.Minor.HasValue)
             {
                 builder.Append("*");
                 return builder.ToString();
             }
 
-            if (this.Patch.HasValue)
-            {
-                builder.Append($"{this.Patch.Value}");
-            }
-            else
+            builder.Append($"{this.Minor.Value}.");
+
+            if (!this.Patch.HasValue)
             {
                 builder.Append("*");
                 return builder.ToString();
             }
 
+            builder.Append($"{this.Patch.Value}");
             builder.Append(string.IsNullOrWhiteSpace(this.Prerelease) ? string.Empty : $"-{this.Prerelease}");
             builder.Append(string.IsNullOrWhiteSpace(this.Build) ? string.Empty : $"+{this.Build}");
 
