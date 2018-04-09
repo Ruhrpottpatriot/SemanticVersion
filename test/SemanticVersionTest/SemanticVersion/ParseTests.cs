@@ -88,7 +88,7 @@
         [Fact]
         public void ParseWhiteSpaceThrows()
         {
-            Assert.Throws<ArgumentException>(() => SemanticVersion.Parse(" "));
+            Assert.Throws<ArgumentNullException>(() => SemanticVersion.Parse(" "));
         }
 
         [Fact]
