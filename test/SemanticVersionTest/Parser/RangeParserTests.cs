@@ -23,9 +23,7 @@ namespace SemanticVersionTest.Parser
 
         [Fact]
         public void Success_WildcardOnly()
-        {   
-            var parser = new RangeParser();
-            Debug.WriteLine(parser.Parse("*"));       
+        {    
         }
     }
 }
