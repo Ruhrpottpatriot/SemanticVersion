@@ -20,12 +20,12 @@ namespace SemVersion
 
             if (componentEmpty || component == "*")
             {
-                return -1;
+                return +1;
             }
 
             if (otherEmtpy || other == "*")
             {
-                return 1;
+                return -1;
             }
 
             string[] componentParts = component.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
