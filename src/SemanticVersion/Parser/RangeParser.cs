@@ -35,14 +35,14 @@
             this.expressionStack.Clear();
             this.operatorStack.Clear();
 
-            string copyString = range;
+            var copyString = range;
 
             while (copyString.Length > 0)
             {
                 if (copyString[0] == '*' || char.IsDigit(copyString[0]))
                 {
                     char[] opArr = { ' ', '|', '&', '!', '=', '<', '>' };
-                    string version = copyString.TakeWhile(t => !opArr.Any(c => c.Equals(t))).Aggregate(string.Empty, (current, t) => current + t);
+                    var version = copyString.TakeWhile(t => !opArr.Any(c => c.Equals(t))).Aggregate(string.Empty, (current, t) => current + t);
 
                     copyString = copyString.Substring(version.Length);
 
@@ -52,10 +52,9 @@
                     continue;
                 }
 
-                int length;
-                if (Operation.IsDefined(copyString, out length))
+                if (Operation.IsDefined(copyString, out var length))
                 {
-                    Operation currentOp = (Operation)copyString.Substring(0, length);
+                    var currentOp = (Operation)copyString.Substring(0, length);
                     copyString = copyString.Substring(length);
 
                     this.EvaluateWhile(() =>
@@ -101,10 +100,10 @@
             // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
             while (condition())
             {
-                Operation operation = (Operation)this.operatorStack.Pop();
+                var operation = (Operation)this.operatorStack.Pop();
 
-                Expression[] expressions = new Expression[operation.NumberOfOperands];
-                for (int i = operation.NumberOfOperands - 1; i >= 0; i--)
+                var expressions = new Expression[operation.NumberOfOperands];
+                for (var i = operation.NumberOfOperands - 1; i >= 0; i--)
                 {
                     expressions[i] = this.expressionStack.Pop();
                 }

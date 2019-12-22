@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    /// <summary>Compares two <see cref="SemanticVersion"/> ojects for equality.</summary>
+    /// <summary>Compares two <see cref="SemanticVersion"/> objects for equality.</summary>
     public sealed class VersionComparer : IEqualityComparer<SemanticVersion>, IComparer<SemanticVersion>
     {
         /// <inheritdoc/>
@@ -14,29 +14,29 @@
         /// <inheritdoc/>
         public int Compare(SemanticVersion left, SemanticVersion right)
         {
-            if (ReferenceEquals(left, null))
+            if (left is null)
             {
-                return ReferenceEquals(right, null) ? 0 : -1;
+                return right is null ? 0 : -1;
             }
 
-            if (ReferenceEquals(right, null))
+            if (right is null)
             {
                 return 1;
             }
 
-            int majorComp = left.Major.CompareToBoxed(right.Major);
+            var majorComp = left.Major.CompareToBoxed(right.Major);
             if (majorComp != 0)
             {
                 return majorComp;
             }
 
-            int minorComp = left.Minor.CompareToBoxed(right.Minor);
+            var minorComp = left.Minor.CompareToBoxed(right.Minor);
             if (minorComp != 0)
             {
                 return minorComp;
             }
 
-            int patchComp = left.Patch.CompareToBoxed(right.Patch);
+            var patchComp = left.Patch.CompareToBoxed(right.Patch);
             if (patchComp != 0)
             {
                 return patchComp;

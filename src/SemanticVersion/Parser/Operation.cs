@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
+    /// <summary>Represents an version operation.</summary>
     internal sealed class Operation : Symbol
     {
         private readonly Func<Expression, Expression, Expression> binaryOperation;
@@ -48,24 +49,26 @@
             this.NumberOfOperands = 2;
         }
 
-        public string Name { get; private set; }
+        /// <summary>Gets the operation's name.</summary>
+        public string Name { get; }
 
-        public int NumberOfOperands { get; private set; }
+        /// <summary>Gets the operation's number of operands. One means unary, two means binary.</summary>
+        public int NumberOfOperands { get; }
 
-        public int Precedence { get; private set; }
+        /// <summary>Gets the operation's rank (higher means earlier evaluation).</summary>
+        public int Precedence { get; }
 
         public static explicit operator Operation(string operation)
         {
-            Operation result;
-
-            if (Operations.TryGetValue(operation, out result))
+            if (Operations.TryGetValue(operation, out var result))
             {
                 return result;
             }
 
-            throw new InvalidCastException();
+            throw new InvalidCastException($"Could not cast {operation} to a valid operation.");
         }
 
+        /// <summary>Creates a new expression with the given expressions as children.</summary>
         public Expression Apply(params Expression[] expressions)
         {
             if (expressions == null)
@@ -86,6 +89,10 @@
             }
         }
 
+        /// <summary>Checks is the passed operation string is a valid operation.</summary>
+        /// <param name="operation">The string to test.</param>
+        /// <param name="length">If the operation string is a valid operation. This is its length.</param>
+        /// <returns>True if the string is a valid operation, otherwise false.</returns>
         public static bool IsDefined(string operation, out int length)
         {
             if (Operations.ContainsKey(operation.Substring(0, 2)))

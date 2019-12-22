@@ -7,7 +7,7 @@
     using System.Text.RegularExpressions;
 
 
-    /// <summary>Reprensents a version object, compliant with the Semantic Version standard 2.0 (http://semver.org)</summary>
+    /// <summary>Represents a version object, compliant with the Semantic Version standard 2.0 (http://semver.org)</summary>
     public class SemanticVersion : IEquatable<SemanticVersion>, IComparable<SemanticVersion>
     {
         private static IComparer<SemanticVersion> comparer = new VersionComparer();
@@ -85,11 +85,11 @@
             return SemanticVersion.Parse(versionString);
         }
 
-        /// <summary>Explicitly converts a <see cref="System.Version"/> onject into a <see cref="SemanticVersion"/>.</summary>
+        /// <summary>Explicitly converts a <see cref="System.Version"/> object into a <see cref="SemanticVersion"/>.</summary>
         /// <param name="dotNetVersion">The version to convert.</param>
         /// <remarks>
-        /// <para>This operator conversts a C# <see cref="System.Version"/> object into the corresponding <see cref="SemanticVersion"/> object.</para>
-        /// <para>Note, that with a C# version the <see cref="System.Version.Build"/> property is identical to the <see cref="Patch"/> propertry on a semantic version compliant object.
+        /// <para>This operator converts a C# <see cref="System.Version"/> object into the corresponding <see cref="SemanticVersion"/> object.</para>
+        /// <para>Note, that with a C# version the <see cref="System.Version.Build"/> property is identical to the <see cref="Patch"/> property on a semantic version compliant object.
         /// Whereas the <see cref="System.Version.Revision"/> property is equivalent to the <see cref="Build"/> property on a semantic version.
         /// The <see cref="Prerelease"/> property is never set, since the C# version object does not use such a notation.</para>
         /// </remarks>
@@ -100,20 +100,17 @@
                 throw new ArgumentNullException(nameof(dotNetVersion));
             }
 
-            int major = dotNetVersion.Major;
-            int minor = dotNetVersion.Minor;
-            int patch = dotNetVersion.Build >= 0 ? dotNetVersion.Build : 0;
-            string build = dotNetVersion.Revision >= 0 ? dotNetVersion.Revision.ToString() : string.Empty;
+            var major = dotNetVersion.Major;
+            var minor = dotNetVersion.Minor;
+            var patch = dotNetVersion.Build >= 0 ? dotNetVersion.Build : 0;
+            var build = dotNetVersion.Revision >= 0 ? dotNetVersion.Revision.ToString() : string.Empty;
 
             return new SemanticVersion(major, minor, patch, string.Empty, build);
         }
 
         /// <summary>Change the comparer used to compare two <see cref="SemanticVersion"/> objects.</summary>
         /// <param name="versionComparer">An instance of the comparer to use in future comparisons.</param>
-        public static void ChangeComparer(IComparer<SemanticVersion> versionComparer)
-        {
-            comparer = versionComparer;
-        }
+        public static void ChangeComparer(IComparer<SemanticVersion> versionComparer) => comparer = versionComparer;
 
         /// <summary>Describes the first public api version.</summary>
         /// <returns>A <see cref="SemanticVersion"/> with version 1.0.0 as version number.</returns>
@@ -136,8 +133,7 @@
                 throw new ArgumentException("The provided version string is either null, empty or only consits of whitespace.", nameof(versionString));
             }
 
-            SemanticVersion version;
-            if (!TryParse(versionString, out version))
+            if (!TryParse(versionString, out var version))
             {
                 throw new ArgumentException("The provided version string is invalid.", nameof(versionString));
             }
@@ -216,43 +212,31 @@
             var patch = int.Parse(patchMatch.Value, CultureInfo.InvariantCulture);
 
             // Parse the patch and build components
-            string prerelease = prereleaseMatch.Value;
-            string build = buildMatch.Value != "*" ? buildMatch.Value : string.Empty;
+            var prerelease = prereleaseMatch.Value;
+            var build = buildMatch.Value != "*" ? buildMatch.Value : string.Empty;
 
             version = new SemanticVersion(major, minor, patch, prerelease, build);
             return true;
         }
 
         /// <inheritdoc />
-        public bool Equals(SemanticVersion other)
-        {
-            return comparer.Compare(this, other) == 0;
-        }
+        public bool Equals(SemanticVersion other) => comparer.Compare(this, other) == 0;
 
         /// <inheritdoc />
-        public int CompareTo(object obj)
-        {
-            return comparer.Compare(this, obj as SemanticVersion);
-        }
+        public int CompareTo(object obj) => comparer.Compare(this, obj as SemanticVersion);
 
         /// <inheritdoc />
-        public int CompareTo(SemanticVersion other)
-        {
-            return comparer.Compare(this, other);
-        }
+        public int CompareTo(SemanticVersion other) => comparer.Compare(this, other);
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            return this.Equals(obj as SemanticVersion);
-        }
+        public override bool Equals(object obj) => this.Equals(obj as SemanticVersion);
 
         /// <inheritdoc />
         public override int GetHashCode()
         {
             unchecked
             {
-                int hashCode = this.Major ?? 0;
+                var hashCode = this.Major ?? 0;
                 hashCode = (hashCode * 397) ^ this.Minor ?? 0;
                 hashCode = (hashCode * 397) ^ this.Patch ?? 0;
                 hashCode = (hashCode * 397) ^ (!string.IsNullOrWhiteSpace(this.Prerelease) ? StringComparer.OrdinalIgnoreCase.GetHashCode(this.Prerelease) : 0);
@@ -264,7 +248,7 @@
         /// <inheritdoc />
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
 
             if (!this.Major.HasValue)
             {
