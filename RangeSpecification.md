@@ -22,4 +22,4 @@ More often than not a piece of software has to specify more than one version as 
 Multiple ranges can be joined by using a set of operators to for a new range. See below for the definition.
 If A and B are version ranges and x a specific version, then a
 * **Union** MUST be written as `A || B` := {x | (x ∈ A) ∨ (x ∈ B) }
-* **Intersection** MUST be written as `A && B``A || B` := {x | (x ∈ A) ∧ (x ∈ B) }
+* **Intersection** MUST be written as `A && B` := {x | (x ∈ A) ∧ (x ∈ B) }
