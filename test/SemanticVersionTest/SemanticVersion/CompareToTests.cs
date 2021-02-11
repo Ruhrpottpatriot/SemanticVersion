@@ -91,5 +91,23 @@
 
             Assert.Equal(-1, left.CompareTo(right));
         }
+
+        [Fact]
+        public void CompareToPrereleaseIsWildcard()
+        {
+            SemanticVersion left = new SemanticVersion(1, 1, 0, prerelease: "*");
+            SemanticVersion right = new SemanticVersion(1, 1, 0);
+
+            Assert.Equal(0, left.CompareTo(right));
+        }
+
+        [Fact]
+        public void CompareToPatchAndPrereleaseIsWildcard()
+        {
+            SemanticVersion left = new SemanticVersion(1, 1, 0, prerelease: "*");
+            SemanticVersion right = new SemanticVersion(1, 1, 1);
+
+            Assert.Equal(-1, left.CompareTo(right));
+        }
     }
 }

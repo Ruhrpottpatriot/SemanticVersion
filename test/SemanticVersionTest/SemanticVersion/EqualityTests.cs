@@ -116,8 +116,8 @@ namespace SemanticVersionTest
         [Fact]
         public void EqualsEverythingIsWildcard() 
         {
-            SemanticVersion left = new SemanticVersion(1, 0, 1); 
-            SemanticVersion right = new SemanticVersion(null, null, null);
+            SemanticVersion left = new SemanticVersion(1, 0, 1, prerelease: "*"); 
+            SemanticVersion right = new SemanticVersion(null, null, null, prerelease: "*");
 
             Assert.True(left.Equals(right));
         }
