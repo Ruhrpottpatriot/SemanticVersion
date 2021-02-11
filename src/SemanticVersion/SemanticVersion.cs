@@ -15,11 +15,11 @@
         private static readonly Regex VersionExpression = new Regex(@"^(?<major>[0]|[1-9]+[0-9]*|[*])((\.(?<minor>[0]|[1-9]+[0-9]*|[*]))(\.(?<patch>[0]|[1-9]+[0-9]*|[*]))?)?(\-(?<pre>[0-9A-Za-z\-\.]+|[*]))?(\+(?<build>[0-9A-Za-z\-\.]+|[*]))?$",
             RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
 
-        /// <summary>Initializese a new instance of the <see cref="SemanticVersion"/> class.</summary>
-        /// <param name="major">The major version component.</param>
-        /// <param name="minor">The minor version component.</param>
-        /// <param name="patch">The patch version component.</param>
-        /// <param name="prerelease">The pre-release version component.</param>
+        /// <summary>Initializes a new instance of the <see cref="SemanticVersion"/> class.</summary>
+        /// <param name="major">The major version component. <see langword="null"/> is treated as a '*' wildcard.</param>
+        /// <param name="minor">The minor version component. <see langword="null"/> is treated as a '*' wildcard.</param>
+        /// <param name="patch">The patch version component. <see langword="null"/> is treated as a '*' wildcard.</param>
+        /// <param name="prerelease">The pre-release version component. Supports '*' wildcard (but not in dot-separated identifiers).</param>
         /// <param name="build">The build version component.</param>
         public SemanticVersion(int? major, int? minor, int? patch, string prerelease = "", string build = "")
         {
@@ -30,16 +30,16 @@
             this.Build = build;
         }
 
-        /// <summary>Gets the major version component.</summary>
+        /// <summary>Gets the major version component. <see langword="null"/> is a '*' wildcard.</summary>
         public int? Major { get; }
 
-        /// <summary>Gets the minor version component.</summary>
+        /// <summary>Gets the minor version component. <see langword="null"/> is a '*' wildcard.</summary>
         public int? Minor { get; }
 
-        /// <summary>Gets the patch version component.</summary>
+        /// <summary>Gets the patch version component. <see langword="null"/> is a '*' wildcard.</summary>
         public int? Patch { get; }
 
-        /// <summary>Gets the pre-release version component.</summary>
+        /// <summary>Gets the pre-release version component. Supports '*' wildcard (but not in dot-separated identifiers)</summary>
         public string Prerelease { get; }
 
         /// <summary>Gets the build version component.</summary>

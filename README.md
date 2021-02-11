@@ -26,6 +26,12 @@ If a different comparison behaviour is intended a user can roll out their own im
 This library supports implicit casting from strings into a suitable semantic version object. Parsing via an implicit conversion will -- like the `SemanticVersion.Parse` method -- throw an error, if the string has the wrong format. Additionally the `SemanticVersion` class includes a `TryParse` method which returns `true` if the cast was successful. See the documentation for additional details.
 Some users might want to convert from a C# version object into an appropriate semantic version. Since a C# version object handles builds and prereleases different from semantic versions and any conversion inevitably leads to data loss, this library only supports explicit casting. With this method, the C# *Build* property is identical to the *Patch* property, whereas the *Revision* property is equivalent to the *Build* property. A *Prerelease* property is never set.
 
+### Wildcards
+This library supports `*` wildcards for *Major*, *Minor*, *Patch* and *Prerelease* components  (*Build* component is ignored by standard). When components of different version objects are compared, if one of them is a wildcard, the components are considered equal.
+
+*Major*, *Minor* and *Patch* components are of type `int?`, so they treat `null` as a wildcard\
+*Prerelease* component supports `*` only as a whole value, wildcards in dot-separated prerelease identifiers are not supported.
+
 ### Version Ranges
 As describes above, this implementation supports a set of versions, mainly to describe dependencies against other APIs. A goal was to make version ranges as intuitive as possible. Thus, many C# logic operators apply to version ranges. Currently the supported operators are:
 * OrElse (`x || y`)
