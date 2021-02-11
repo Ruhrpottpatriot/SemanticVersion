@@ -94,5 +94,32 @@ namespace SemanticVersionTest
 
             Assert.False(left.Equals(right));
         }
+
+        [Fact]
+        public void EqualsPatchIsWildcard() 
+        {
+            SemanticVersion left = new SemanticVersion(1, 0, 1); 
+            SemanticVersion right = new SemanticVersion(1, 0, null);
+
+            Assert.True(left.Equals(right));
+        }
+
+        [Fact]
+        public void EqualsMinorAndPatchAreWildcards() 
+        {
+            SemanticVersion left = new SemanticVersion(1, 0, 1); 
+            SemanticVersion right = new SemanticVersion(1, null, null);
+
+            Assert.True(left.Equals(right));
+        }
+
+        [Fact]
+        public void EqualsEverythingIsWildcard() 
+        {
+            SemanticVersion left = new SemanticVersion(1, 0, 1); 
+            SemanticVersion right = new SemanticVersion(null, null, null);
+
+            Assert.True(left.Equals(right));
+        }
     }
 }
