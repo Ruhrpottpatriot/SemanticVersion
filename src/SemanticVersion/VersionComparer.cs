@@ -24,19 +24,19 @@
                 return 1;
             }
 
-            var majorComp = left.Major.CompareToBoxed(right.Major);
+            var majorComp = left.Major.CompareToWildcard(right.Major);
             if (majorComp != 0)
             {
                 return majorComp;
             }
 
-            var minorComp = left.Minor.CompareToBoxed(right.Minor);
+            var minorComp = left.Minor.CompareToWildcard(right.Minor);
             if (minorComp != 0)
             {
                 return minorComp;
             }
 
-            var patchComp = left.Patch.CompareToBoxed(right.Patch);
+            var patchComp = left.Patch.CompareToWildcard(right.Patch);
             if (patchComp != 0)
             {
                 return patchComp;
