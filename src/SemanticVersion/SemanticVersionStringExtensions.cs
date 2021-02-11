@@ -37,7 +37,9 @@ namespace SemVersion
             var isLeftEmpty = string.IsNullOrWhiteSpace(left);
             var isRightEmpty = string.IsNullOrWhiteSpace(right);
 
-            if ((isLeftEmpty && isRightEmpty) || left == "*" || right == "*")
+            if ((isLeftEmpty && isRightEmpty) 
+                || (left == "*" && !isRightEmpty) 
+                || (!isLeftEmpty && right == "*"))
             {
                 return 0;
             }
