@@ -9,19 +9,19 @@
         [Fact]
         public void CompareToInvaildObject()
         {
-            SemanticVersion version = new SemanticVersion(1,0,0);
+            SemanticVersion version = new SemanticVersion(1, 0, 0);
 
-            Assert.Equal(1,version.CompareTo(new object()));
+            Assert.Equal(1, version.CompareTo(new object()));
         }
 
         [Fact]
         public void CompareToValidObject()
         {
-            SemanticVersion version = new SemanticVersion(1,0,0);
-            SemanticVersion other = new SemanticVersion(1,0,0);
+            SemanticVersion version = new SemanticVersion(1, 0, 0);
+            SemanticVersion other = new SemanticVersion(1, 0, 0);
             Assert.Equal(0, version.CompareTo((object)other));
         }
-        
+
         [Fact]
         public void CompareTo()
         {
@@ -59,7 +59,7 @@
         [Fact]
         public void CompareToBuildRightEmpty()
         {
-            SemanticVersion left = new SemanticVersion(1, 1, 0, build:"abc");
+            SemanticVersion left = new SemanticVersion(1, 1, 0, build: "abc");
             SemanticVersion right = new SemanticVersion(1, 1, 0);
 
             Assert.Equal(0, left.CompareTo(right));

@@ -19,8 +19,8 @@
             @"^(?<major>[0]|[1-9]+[0-9]*|[*])((\.(?<minor>[0]|[1-9]+[0-9]*|[*]))(\.(?<patch>[0]|[1-9]+[0-9]*|[*]))?)?(\-(?<pre>[0-9A-Za-z\-\.]+|[*]))?(\+(?<build>[0-9A-Za-z\-\.]+|[*]))?$",
             RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
 
-        private static readonly Regex PrereleaseExpression = new Regex(@"[0-9A-Za-z\-\.]+|[*]", RegexOptions.CultureInvariant);
-        private static readonly Regex BuildExpression = new Regex(@"[0-9A-Za-z\-\.]+|[*]", RegexOptions.CultureInvariant);
+        private static readonly Regex PrereleaseExpression = new Regex(@"^(:?[0-9A-Za-z\-\.]+|[*])$", RegexOptions.CultureInvariant);
+        private static readonly Regex BuildExpression = new Regex(@"^(:?[0-9A-Za-z\-\.]+|[*])$", RegexOptions.CultureInvariant);
 
 
 
@@ -141,15 +141,15 @@
 
         private void CheckPrerelease(string prerelease)
         {
-            if (!PrereleaseExpression.IsMatch(prerelease))
+            if (!string.IsNullOrEmpty(prerelease) && !PrereleaseExpression.IsMatch(prerelease))
             {
                 throw new ArgumentException("prerelease version component isn't compliant with the Semantic Versioning standard");
             }
         }
 
-        private void CheckBuild(string prerelease)
+        private void CheckBuild(string build)
         {
-            if (!BuildExpression.IsMatch(prerelease))
+            if (!string.IsNullOrEmpty(build) && !BuildExpression.IsMatch(build))
             {
                 throw new ArgumentException("build version component isn't compliant with the Semantic Versioning standard");
             }
@@ -157,7 +157,9 @@
 
         private void CheckWildcardOrder(int? major, int? minor, int? patch, string prerelease)
         {
-            var wildcards = new List<bool> { !major.HasValue, !minor.HasValue, !patch.HasValue, prerelease == WildcardSymbol };
+            var wildcards = new List<bool> { !major.HasValue, !minor.HasValue, !patch.HasValue };
+
+            if (!string.IsNullOrEmpty(prerelease)) wildcards.Add(prerelease == WildcardSymbol);
 
             var hasValueAfterWildcard = wildcards.SkipWhile(wildcard => !wildcard).Contains(false);
 
