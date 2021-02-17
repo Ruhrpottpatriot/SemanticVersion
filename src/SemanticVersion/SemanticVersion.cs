@@ -58,7 +58,7 @@
         /// <summary>Gets the patch version component. <see langword="null"/> is a '*' wildcard.</summary>
         public int? Patch { get; }
 
-        /// <summary>Gets the pre-release version component. Supports '*' wildcard (but not in dot-separated identifiers)</summary>
+        /// <summary>Gets the pre-release version component. '*' wildcard is equal to any <i>existing</i> pre-release</summary>
         public string Prerelease { get; }
 
         /// <summary>Gets the build version component.</summary>
@@ -214,7 +214,7 @@
         {
             version = null;
 
-            if (string.IsNullOrEmpty(versionString))
+			if (string.IsNullOrEmpty(versionString))
             {
                 return false;
             }
@@ -232,53 +232,56 @@
             var prereleaseMatch = versionMatch.Groups["pre"];
             var buildMatch = versionMatch.Groups["build"];
 
-            // Parse the major component, if the match equals to "*",
-            // we return a version that matches every version.
-            if (majorMatch.Value == "*")
-            {
-                version = new SemanticVersion(null, null, null);
-                return true;
-            }
 
-            var major = int.Parse(majorMatch.Value, CultureInfo.InvariantCulture);
+            if (!majorMatch.Success)
+			{
+				return false;
+			}
+			var major = majorMatch.Value != WildcardSymbol 
+                ? int.Parse(majorMatch.Value, CultureInfo.InvariantCulture) 
+                : (int?) null;
 
-            // Parse the minor component, if the match equals to "*",
-            // we return a version that matches every minor version
-            // for a specified major version.
-            if (!minorMatch.Success)
-            {
+
+            // Minor can be missing only if Major is a wildcard - this way Minor is a wildcard too (implicitly)
+            if (!minorMatch.Success && major != null) 
+			{
+				return false;
+			}
+			var minor = minorMatch.Success && minorMatch.Value != WildcardSymbol 
+                ? int.Parse(minorMatch.Value, CultureInfo.InvariantCulture) 
+                : (int?)null;
+
+
+            // Patch can be missing only if Minor is a wildcard - this way Patch is a wildcard too (implicitly)
+            if (!patchMatch.Success && minor != null)
+			{
+				return false;
+			}
+			var patch = patchMatch.Success && patchMatch.Value != WildcardSymbol 
+                ? int.Parse(patchMatch.Value, CultureInfo.InvariantCulture) 
+                : (int?)null;
+
+
+            if (prereleaseMatch.Success && patch is null && prereleaseMatch.Value != WildcardSymbol)
+			{
                 return false;
-            }
-
-            if (minorMatch.Value == "*")
-            {
-                version = new SemanticVersion(major, null, null);
-                return true;
-            }
-
-            var minor = int.Parse(minorMatch.Value, CultureInfo.InvariantCulture);
-
-            // Parse the patch component, if the match equals to "*",
-            // we return a version that matches every patch version
-            // for a specified major and minor version
-            if (!patchMatch.Success)
-            {
-                return false;
-            }
-
-            if (patchMatch.Value == "*")
-            {
-                version = new SemanticVersion(major, minor, null);
-                return true;
-            }
-
-            var patch = int.Parse(patchMatch.Value, CultureInfo.InvariantCulture);
-
-            // Parse the patch and build components
+			}
             var prerelease = prereleaseMatch.Value;
-            var build = buildMatch.Value != "*" ? buildMatch.Value : string.Empty;
 
-            version = new SemanticVersion(major, minor, patch, prerelease, build);
+
+            var build = buildMatch.Value == WildcardSymbol ? string.Empty : buildMatch.Value;
+
+
+            try
+            {
+                // delegated value-after-wildcard checks to ctor
+                version = new SemanticVersion(major, minor, patch, prerelease, build);
+            }
+            catch (ArgumentException)
+			{
+                return false;
+			}
+
             return true;
         }
 
