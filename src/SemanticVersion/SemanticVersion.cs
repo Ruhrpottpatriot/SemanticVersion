@@ -19,9 +19,6 @@
             @"^(?<major>[0]|[1-9]+[0-9]*|[*])((\.(?<minor>[0]|[1-9]+[0-9]*|[*]))(\.(?<patch>[0]|[1-9]+[0-9]*|[*]))?)?(\-(?<pre>[0-9A-Za-z\-\.]+|[*]))?(\+(?<build>[0-9A-Za-z\-\.]+|[*]))?$",
             RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture);
 
-        private static readonly Regex PrereleaseExpression = new Regex(@"^(:?[0-9A-Za-z\-\.]+|[*])$", RegexOptions.CultureInvariant);
-        private static readonly Regex BuildExpression = new Regex(@"^(:?[0-9A-Za-z\-\.]+|[*])$", RegexOptions.CultureInvariant);
-
 
 
         /// <summary>Initializes a new instance of the <see cref="SemanticVersion"/> class.</summary>
@@ -32,19 +29,20 @@
         /// <param name="build">The build version component.</param>
         public SemanticVersion(int? major, int? minor, int? patch, string prerelease = "", string build = "")
 		{
-			CheckMainComponent(major, nameof(major));
-			CheckMainComponent(minor, nameof(minor));
-			CheckMainComponent(patch, nameof(patch));
-            CheckPrerelease(prerelease);
-            CheckBuild(build);
-
-            CheckWildcardOrder(major, minor, patch, prerelease);
-
 			this.Major = major;
 			this.Minor = minor;
 			this.Patch = patch;
 			this.Prerelease = prerelease;
 			this.Build = build;
+
+            var versionString = this.ToString();
+
+            if (!VersionExpression.IsMatch(versionString))
+			{
+                throw new ArgumentException($"{versionString} is not a valid semantic version");
+            }
+
+            CheckWildcardOrder(major, minor, patch, prerelease);
 		}
 
 
@@ -130,30 +128,6 @@
         }
 
 
-
-        private void CheckMainComponent(int? major, string componentName)
-        {
-            if (major.HasValue && major < 0)
-            {
-                throw new ArgumentOutOfRangeException(componentName, $"{componentName} version component can't be a negative number.");
-            }
-        }
-
-        private void CheckPrerelease(string prerelease)
-        {
-            if (!string.IsNullOrEmpty(prerelease) && !PrereleaseExpression.IsMatch(prerelease))
-            {
-                throw new ArgumentException("prerelease version component isn't compliant with the Semantic Versioning standard");
-            }
-        }
-
-        private void CheckBuild(string build)
-        {
-            if (!string.IsNullOrEmpty(build) && !BuildExpression.IsMatch(build))
-            {
-                throw new ArgumentException("build version component isn't compliant with the Semantic Versioning standard");
-            }
-        }
 
         private void CheckWildcardOrder(int? major, int? minor, int? patch, string prerelease)
         {
