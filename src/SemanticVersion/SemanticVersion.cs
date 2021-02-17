@@ -43,7 +43,9 @@
             }
 
             CheckWildcardOrder(major, minor, patch, prerelease);
-		}
+            this.HasWildcard = Major is null || Minor is null || Patch is null || Prerelease == WildcardSymbol;
+
+        }
 
 
 
@@ -61,6 +63,9 @@
 
         /// <summary>Gets the build version component.</summary>
         public string Build { get; }
+
+        /// <summary> Indicates whether this semantic version instance has a wildcard in one of its components </summary>
+        public bool HasWildcard { get; }
 
 
 
