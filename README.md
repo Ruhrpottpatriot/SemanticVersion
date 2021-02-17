@@ -29,8 +29,9 @@ Some users might want to convert from a C# version object into an appropriate se
 ### Wildcards
 This library supports `*` wildcards for *Major*, *Minor*, *Patch* and *Prerelease* components  (*Build* component is ignored by standard). When components of different version objects are compared, if one of them is a wildcard, the components are considered equal.
 
+Version components can not have other values other than wildcards if higher level component is a wildcard (for example: `1.*.1` isn't valid, but `1.*.*` is)\
 *Major*, *Minor* and *Patch* components are of type `int?`, so they treat `null` as a wildcard\
-*Prerelease* component supports `*` only as a whole value, wildcards in dot-separated prerelease identifiers are not supported.
+*Prerelease* component supports `*` only as a whole value, wildcards in dot-separated prerelease identifiers are not supported. If specified, it will match any version with prerelease component (versions without aren't matched)
 
 ### Version Ranges
 As describes above, this implementation supports a set of versions, mainly to describe dependencies against other APIs. A goal was to make version ranges as intuitive as possible. Thus, many C# logic operators apply to version ranges. Currently the supported operators are:
