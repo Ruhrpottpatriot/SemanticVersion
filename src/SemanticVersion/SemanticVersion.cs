@@ -25,15 +25,15 @@
         /// <param name="major">The major version component. <see langword="null"/> is treated as a '*' wildcard.</param>
         /// <param name="minor">The minor version component. <see langword="null"/> is treated as a '*' wildcard.</param>
         /// <param name="patch">The patch version component. <see langword="null"/> is treated as a '*' wildcard.</param>
-        /// <param name="prerelease">The pre-release version component. Supports '*' wildcard (but not in dot-separated identifiers).</param>
-        /// <param name="build">The build version component.</param>
+        /// <param name="prerelease">The pre-release version component. '*' wildcard is equal to any <i>existing</i> pre-release.</param>
+        /// <param name="build">The build version component. '*' wildcard is ignored since build component must not affect comparison</param>
         public SemanticVersion(int? major, int? minor, int? patch, string prerelease = "", string build = "")
 		{
 			this.Major = major;
 			this.Minor = minor;
 			this.Patch = patch;
 			this.Prerelease = prerelease;
-			this.Build = build;
+			this.Build = build == WildcardSymbol ? string.Empty : build;
 
             var versionString = this.ToString();
 
@@ -248,7 +248,7 @@
             var prerelease = prereleaseMatch.Value;
 
 
-            var build = buildMatch.Value == WildcardSymbol ? string.Empty : buildMatch.Value;
+            var build = buildMatch.Value;
 
 
             try

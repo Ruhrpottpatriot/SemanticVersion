@@ -25,6 +25,7 @@ namespace SemanticVersionTest
             var version = new SemanticVersion(major, minor, patch, prerelease, build);
 
             Assert.Equal(expectedString, version.ToString());
+			Assert.False(version.HasWildcard);
 		}
 
 		#region Test cases
@@ -48,7 +49,16 @@ namespace SemanticVersionTest
             var version = new SemanticVersion(major, minor, patch, prerelease);
 
             Assert.Equal(expectedString, version.ToString());
+			Assert.True(version.HasWildcard);
         }
+
+		public void ConstructVersionWithBuildWildcard()
+		{
+			var version = new SemanticVersion(1, 2, 3, "beta", "*");
+
+			Assert.True(string.IsNullOrEmpty(version.Build));
+			Assert.False(version.HasWildcard);
+		}
 
 		#region Test cases
 
