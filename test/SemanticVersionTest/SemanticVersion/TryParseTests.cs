@@ -220,7 +220,7 @@ namespace SemanticVersionTest
         public void TryParseWildcardInMajor()
         {
             SemanticVersion version;
-            var result = SemanticVersion.TryParse("*.2", out version);
+            var result = SemanticVersion.TryParse("*", out version);
 
             Assert.True(result);
             Assert.Equal("*", version.ToString());
@@ -230,7 +230,7 @@ namespace SemanticVersionTest
         public void TryParseWildcardInMinor()
         {
             SemanticVersion version;
-            var result = SemanticVersion.TryParse("1.*.3", out version);
+            var result = SemanticVersion.TryParse("1.*", out version);
 
             Assert.True(result);
             Assert.Equal("1.*", version.ToString());
@@ -284,8 +284,8 @@ namespace SemanticVersionTest
 
             Assert.True(result);
 
-            // The test restult below is intended, as build shouldn't factor 
-            // into version precedende (and therefore equality).
+            // The test result below is intended, as build shouldn't factor 
+            // into version precedence (and therefore equality).
             Assert.Equal("1.2.3", version.ToString());
         }
 
@@ -297,10 +297,21 @@ namespace SemanticVersionTest
 
             Assert.True(result);
 
-            // The test restult below is intended, as build shouldn't factor 
-            // into version precedende (and therefore equality).
+            // The test result below is intended, as build shouldn't factor 
+            // into version precedence (and therefore equality).
             Assert.Equal("1.2.3-preR", version.ToString());
         }
 
+        [Theory]
+        [InlineData("1.2.*-pre")]
+        [InlineData("1.*.3")]
+        [InlineData("*.2")]
+        [InlineData("*.2.3-pre")]
+        public void TryParseValuesAfterWildcards(string versionString)
+		{
+            var result = SemanticVersion.TryParse(versionString, out var version);
+
+            Assert.False(result);
+		}
     }
 }
