@@ -172,7 +172,7 @@
         {
             if (string.IsNullOrWhiteSpace(versionString))
             {
-                throw new ArgumentException("The provided version string is either null, empty or only consits of whitespace.", nameof(versionString));
+                throw new ArgumentException("The provided version string is either null, empty or only consists of whitespace.", nameof(versionString));
             }
 
             if (!TryParse(versionString, out var version))
